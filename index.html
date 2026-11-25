@@ -131,7 +131,7 @@ ${m==='up'?`<label>الاسم بالكامل</label><input id="a_name" autocompl
 <label>كلمة السر</label><input id="a_pass" type="password" autocomplete="${m==='in'?'current-password':'new-password'}" dir="ltr" placeholder="6 حروف على الأقل">
 <div id="a_err" style="color:var(--bad);font-size:14px;margin-top:8px"></div>
 <div style="display:flex;gap:10px;margin-top:16px"><button class="btn" onclick="doAuth()">${m==='in'?'دخول':'إنشاء الحساب'}</button><button class="btn ghost" onclick="$('#auth').classList.remove('show')">إلغاء</button></div>
-<p style="margin-top:14px;font-size:14px;color:var(--muted)">${m==='in'?'مفيش حساب؟':'عندك حساب؟'} <a href="javascript:void(0)" style="color:var(--ink2);font-weight:700" onclick="openAuth('${m==='in'?'up':'in'}')">${m==='in'?'سجّل كطالب':'سجّل دخول'}</a></p>
+${m==='in'?'<p style="margin-top:12px;font-size:14px"><a href="javascript:void(0)" style="color:var(--ink2);font-weight:700" onclick="forgot()">نسيت كلمة السر؟</a></p>':''}<p style="margin-top:14px;font-size:14px;color:var(--muted)">${m==='in'?'مفيش حساب؟':'عندك حساب؟'} <a href="javascript:void(0)" style="color:var(--ink2);font-weight:700" onclick="openAuth('${m==='in'?'up':'in'}')">${m==='in'?'سجّل كطالب':'سجّل دخول'}</a></p>
 ${m==='up'?'<p class="note" style="margin-top:10px">حسابك بيتفعّل بعد موافقة المدرس.</p>':''}`}
 async function doAuth(){const m=$('#authbox').dataset.mode,email=$('#a_email').value.trim(),password=$('#a_pass').value,err=$('#a_err');err.textContent='';
  let r;if(m==='up'){const full_name=$('#a_name').value.trim();if(!full_name){err.textContent='اكتب اسمك';return}
@@ -213,6 +213,14 @@ async function tAnn(){const {data}=await sb.from('announcements').select('*').or
  $('#tb').innerHTML=`<div class="card"><h3>إعلان جديد</h3><textarea id="an" rows="3"></textarea><button class="btn" style="margin-top:10px" onclick="addAnn()">نشر</button></div><div class="card" style="margin-top:16px">${(data||[]).map(a=>`<div class="ann">${esc(a.body)}</div>`).join('')}</div>`}
 async function addAnn(){const body=$('#an').value.trim();if(!body)return;const {error}=await sb.from('announcements').insert({body});if(error)toast(error.message);tAnn()}
 init();
+
+async function forgot(){const email=$('#a_email').value.trim(),err=$('#a_err');if(!email){err.style.color='var(--bad)';err.textContent='اكتب بريدك الأول';return}
+ const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+ err.style.color=error?'var(--bad)':'var(--ok)';err.textContent=error?(/rate|limit/i.test(error.message)?'اتبعت عدد كبير من الرسائل، جرّب بعد شوية':error.message):'لو البريد مسجّل هتوصلك رسالة فيها رابط تغيير كلمة السر.'}
+sb.auth.onAuthStateChange((ev)=>{if(ev==='PASSWORD_RECOVERY'){const b=$('#authbox');b.dataset.mode='reset';b.innerHTML=`<h3>كلمة سر جديدة</h3><label>كلمة السر الجديدة</label><input id="n_pass" type="password" dir="ltr" autocomplete="new-password" placeholder="6 حروف على الأقل"><div id="a_err" style="color:var(--bad);font-size:14px;margin-top:8px"></div><div style="display:flex;gap:10px;margin-top:16px"><button class="btn" onclick="setNewPass()">حفظ</button></div>`;$('#auth').classList.add('show')}});
+async function setNewPass(){const p=$('#n_pass').value;if(p.length<6){$('#a_err').textContent='6 حروف على الأقل';return}
+ const {error}=await sb.auth.updateUser({password:p});if(error){$('#a_err').textContent=error.message;return}
+ $('#auth').classList.remove('show');toast('اتغيّرت كلمة السر');await init()}
 
 </script>
 </body>

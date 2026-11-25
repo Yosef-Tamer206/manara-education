@@ -310,6 +310,7 @@ html[data-theme=dark]{filter:invert(.92) hue-rotate(180deg)}
 html[data-theme=dark] img,html[data-theme=dark] video,html[data-theme=dark] .cover,html[data-theme=dark] .cvr,html[data-theme=dark] .cvr2{filter:hue-rotate(180deg) invert(1) contrast(1.19)!important}
 html[data-theme=dark] .gcard,html[data-theme=dark] .shero,html[data-theme=dark] .stage2 .blob,html[data-theme=dark] .stage2 .blob2,html[data-theme=dark] .ab-blob,html[data-theme=dark] .ab-blob2,html[data-theme=dark] .thm i{filter:hue-rotate(180deg) invert(1) contrast(1.19)!important}
 html[data-theme=dark] .cover img,html[data-theme=dark] .cvr img,html[data-theme=dark] .cvr2 img{filter:none!important}
+html[data-theme=dark] .modal{background:rgba(235,235,240,.72)!important}html[data-theme=dark] .btn:not(.gold):not(.ghost),html[data-theme=dark] .hero .btn.gold{background:#6aaaff!important;color:#000!important}html[data-theme=dark] .btn:not(.gold):not(.ghost):hover,html[data-theme=dark] .hero .btn.gold:hover{background:#538fff!important}html[data-theme=dark] .btn.ghost,html[data-theme=dark] .hero .btn.ghost{border-color:rgba(20,20,20,.55)!important}
 @media(max-width:600px){.thm{width:36px;height:36px;margin-inline-start:4px}}
 @media(max-width:900px){#catalog.grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){#catalog.grid{grid-template-columns:1fr}#catalog .course .cover{height:170px}}
@@ -380,7 +381,7 @@ const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEac
 let t=0;const fx=()=>{app.querySelectorAll(SEL).forEach(el=>{if(el.dataset.fx||el.closest('.lcar,.ccar,.modal')||(el.parentElement&&el.parentElement.closest('.rv')))return;el.dataset.fx='1';el.dataset.fxi=[...el.parentElement.children].indexOf(el);el.classList.add('rv');if(io)io.observe(el);else show(el)})};
 new MutationObserver(()=>{clearTimeout(t);t=setTimeout(fx,30)}).observe(app,{childList:true,subtree:true});fx()})()}catch(e){console.warn('fx',e)}
 
-const BUILD='b37-2026-11-26';(async()=>{try{const t=await(await fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'})).text();const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD&&!sessionStorage.getItem('rl')){sessionStorage.setItem('rl','1');location.replace(location.pathname+'?v='+Date.now()+location.hash)}}catch(e){}})();
+const BUILD='b38-2026-11-26';(async()=>{try{const t=await(await fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'})).text();const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD&&!sessionStorage.getItem('rl')){sessionStorage.setItem('rl','1');location.replace(location.pathname+'?v='+Date.now()+location.hash)}}catch(e){}})();
 (function(){const h=document.documentElement;const paint=d=>{h.dataset.theme=d?'dark':'light';const b=document.getElementById('thm');if(b){const t=d?'الوضع الفاتح':'الوضع الداكن';b.innerHTML='<i>'+(d?'☀️':'🌙')+'</i>';b.title=t;b.setAttribute('aria-label',t)}};
  const mk=()=>{const n=document.querySelector('header .nav');if(!n||document.getElementById('thm'))return;const b=document.createElement('button');b.id='thm';b.type='button';b.className='thm';b.onclick=()=>{const d=h.dataset.theme!=='dark';paint(d);try{localStorage.setItem('thm',d?'dark':'light')}catch(e){}};n.appendChild(b);paint(h.dataset.theme==='dark')};
  if(document.readyState!=='loading')mk();else addEventListener('DOMContentLoaded',mk);setTimeout(mk,800)})();

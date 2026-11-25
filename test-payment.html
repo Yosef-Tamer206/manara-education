@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!-- BUILD: testpay-v1 | SIMULATED DEMO ONLY: no real payment, no real subscription, no backend -->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اشتراك تجريبي | منصة الأستاذ محمد نصر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e1320; --card:#161d2d; --border:#2b3753; --text:#e8edf8; --muted:#9fadc9;
+  --primary:#3d6fd9; --primary-d:#2f5bb8; --orange:#f59e0b; --green:#22c55e; --red:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7}
+.testbanner{position:sticky;top:0;z-index:50;background:repeating-linear-gradient(45deg,#7c2d12,#7c2d12 14px,#9a3412 14px,#9a3412 28px);color:#fff;text-align:center;font-weight:900;padding:10px 12px;font-size:.95rem;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.testbanner small{display:block;font-weight:600;opacity:.92;font-size:.78rem}
+.wrap{max-width:980px;margin:0 auto;padding:26px 18px 60px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+.brand{font-weight:900;font-size:1.25rem}
+.brand span{color:var(--orange)}
+a.home{color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:10px;padding:7px 14px;font-size:.85rem}
+a.home:hover{color:var(--text);border-color:var(--primary)}
+h1{font-size:1.6rem;font-weight:900;margin-bottom:6px}
+.sub{color:var(--muted);margin-bottom:28px;font-size:.95rem}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;position:relative;transition:border-color .2s,transform .2s}
+.plan:hover{border-color:var(--primary);transform:translateY(-3px)}
+.plan .grade{font-weight:900;font-size:1.15rem}
+.plan .price{font-size:2rem;font-weight:900;color:var(--orange)}
+.plan .price small{font-size:.85rem;color:var(--muted);font-weight:600}
+.plan .feat{color:var(--muted);font-size:.87rem;list-style:none}
+.plan .feat li{padding:3px 0}
+.plan .feat li::before{content:"✓ ";color:var(--green);font-weight:900}
+.testtag{position:absolute;top:14px;left:14px;background:#3b2f0b;color:var(--orange);border:1px solid var(--orange);border-radius:999px;font-size:.68rem;font-weight:700;padding:2px 10px}
+.subbed{position:absolute;top:14px;left:14px;background:#052e16;color:var(--green);border:1px solid var(--green);border-radius:999px;font-size:.68rem;font-weight:700;padding:2px 10px}
+.btn{background:var(--primary);color:#fff;border:0;border-radius:12px;padding:12px 18px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;text-align:center;margin-top:auto}
+.btn:hover{background:var(--primary-d)}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn.ghost:hover{color:var(--text);border-color:var(--muted)}
+.btn.fail{background:#7f1d1d}
+.btn.fail:hover:#991b1b{}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(4,8,18,.78);display:none;align-items:center;justify-content:center;padding:16px;z-index:100}
+.overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:18px;max-width:460px;width:100%;padding:26px 24px;max-height:92vh;overflow-y:auto}
+.modal h2{font-size:1.2rem;font-weight:900;margin-bottom:4px}
+.modal .msub{color:var(--muted);font-size:.85rem;margin-bottom:18px}
+.summary{background:#0f1626;border:1px dashed var(--border);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:.92rem}
+.summary b{color:var(--orange)}
+.methods{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.mopt{display:flex;align-items:center;gap:10px;background:#0f1626;border:1px solid var(--border);border-radius:12px;padding:10px 14px;cursor:pointer;font-size:.92rem}
+.mopt.sel{border-color:var(--primary);background:#12203f}
+.mopt input{accent-color:var(--primary)}
+.fakefields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.fakefields .full{grid-column:1/-1}
+.fld{background:#0f1626;border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--muted);font-size:.88rem;direction:ltr;text-align:left}
+.fld label{display:block;font-size:.68rem;color:#6b7a99;direction:rtl;text-align:right}
+.locknote{color:#6b7a99;font-size:.75rem;margin-bottom:16px}
+.mrow{display:flex;gap:10px;margin-top:6px}
+.mrow .btn{flex:1;font-size:.9rem;padding:11px 8px}
+.spinner{display:none;text-align:center;padding:26px 0}
+.spinner .ring{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--primary);border-radius:50%;margin:0 auto 14px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result{display:none;text-align:center;padding:10px 0 4px}
+.result .ic{font-size:3rem;margin-bottom:8px}
+.result h3{font-size:1.25rem;font-weight:900;margin-bottom:6px}
+.result p{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+.receipt{background:#0f1626;border:1px dashed var(--border);border-radius:12px;padding:12px 16px;text-align:right;font-size:.85rem;margin-bottom:14px}
+.receipt div{display:flex;justify-content:space-between;gap:10px}
+.receipt span{color:var(--muted)}
+.receipt b{direction:ltr}
+.warn{color:var(--orange);font-size:.78rem;margin-bottom:14px}
+.statusbox{margin-top:34px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+.statusbox h2{font-size:1.05rem;font-weight:900;margin-bottom:8px}
+.statusbox p{color:var(--muted);font-size:.9rem}
+.statusbox .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+footer{margin-top:44px;border-top:1px solid var(--border);padding-top:18px;color:#6b7a99;font-size:.8rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="testbanner">وضع تجريبي (TEST MODE) — محاكاة فقط<small>لا يوجد دفع حقيقي، ولا اشتراك حقيقي، ولا يتم إدخال أو حفظ أي بيانات بنكية</small></div>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">منصة <span>الأستاذ محمد نصر</span> — فيزياء</div>
+    <a class="home" href="./">← الرئيسية</a>
+  </header>
+
+  <h1>الاشتراكات <span style="color:var(--orange)">(نسخة تجريبية)</span></h1>
+  <p class="sub">الصفحة دي بتحاكي تجربة الاشتراك والدفع بالكامل من غير أي فلوس حقيقية. الأسعار المعروضة قيم تجريبية للعرض فقط ومش نهائية.</p>
+
+  <div class="plans">
+    <div class="plan" data-grade="أولى ثانوي" data-price="150">
+      <span class="testtag">سعر تجريبي</span>
+      <div class="grade">أولى ثانوي</div>
+      <div class="price">150 <small>ج.م / شهر (تجريبي)</small></div>
+      <ul class="feat"><li>كل دروس الشهر</li><li>اختبارات تفاعلية</li><li>متابعة المستوى</li></ul>
+      <button class="btn" onclick="openCheckout(this)">اشترك (تجريبي)</button>
+    </div>
+    <div class="plan" data-grade="تانية بكالوريا" data-price="200">
+      <span class="testtag">سعر تجريبي</span>
+      <div class="grade">تانية بكالوريا</div>
+      <div class="price">200 <small>ج.م / شهر (تجريبي)</small></div>
+      <ul class="feat"><li>كل دروس الشهر</li><li>اختبارات تفاعلية</li><li>متابعة المستوى</li></ul>
+      <button class="btn" onclick="openCheckout(this)">اشترك (تجريبي)</button>
+    </div>
+    <div class="plan" data-grade="تالتة بكالوريا" data-price="200">
+      <span class="testtag">سعر تجريبي</span>
+      <div class="grade">تالتة بكالوريا</div>
+      <div class="price">200 <small>ج.م / شهر (تجريبي)</small></div>
+      <ul class="feat"><li>كل دروس الشهر</li><li>اختبارات تفاعلية</li><li>مراجعة نهائية</li></ul>
+      <button class="btn" onclick="openCheckout(this)">اشترك (تجريبي)</button>
+    </div>
+  </div>
+
+  <div class="statusbox" id="statusBox" style="display:none">
+    <div class="row">
+      <div>
+        <h2>حالة الاشتراك التجريبي</h2>
+        <p id="statusText"></p>
+      </div>
+      <button class="btn ghost" onclick="cancelDemo()">إلغاء الاشتراك التجريبي</button>
+    </div>
+  </div>
+
+  <footer>صفحة معزولة للتجربة فقط — لا تمثل أسعارًا أو شروطًا نهائية، ولا تُجري أي عملية دفع حقيقية.</footer>
+</div>
+
+<!-- checkout modal -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeCheckout()">
+  <div class="modal">
+    <div id="stepForm">
+      <h2>إتمام الاشتراك <span style="color:var(--orange);font-size:.8rem">(محاكاة)</span></h2>
+      <p class="msub">كل البيانات الظاهرة وهمية ومسبقة التعبئة، وممنوع إدخال أي بيانات حقيقية.</p>
+      <div class="summary" id="orderSummary"></div>
+      <div class="methods" id="methods">
+        <label class="mopt sel"><input type="radio" name="m" checked value="كارت بنكي"> كارت بنكي (تجريبي)</label>
+        <label class="mopt"><input type="radio" name="m" value="محفظة إلكترونية"> محفظة إلكترونية (تجريبي)</label>
+        <label class="mopt"><input type="radio" name="m" value="InstaPay"> InstaPay (تجريبي)</label>
+      </div>
+      <div class="fakefields">
+        <div class="fld full"><label>رقم الكارت (وهمي)</label>4242 4242 4242 4242</div>
+        <div class="fld"><label>الاسم (وهمي)</label>TEST STUDENT</div>
+        <div class="fld"><label>تاريخ الانتهاء</label>12 / 34</div>
+        <div class="fld"><label>CVV</label>***</div>
+      </div>
+      <p class="locknote">🔒 الحقول مقفولة عمدًا: الصفحة دي محاكاة، ومش مكان لأي بيانات بنكية حقيقية.</p>
+      <div class="mrow">
+        <button class="btn" onclick="simulate(true)">محاكاة دفع ناجح ✅</button>
+        <button class="btn fail" onclick="simulate(false)">محاكاة دفع فاشل ❌</button>
+      </div>
+      <div class="mrow">
+        <button class="btn ghost" onclick="closeCheckout()">إلغاء</button>
+      </div>
+    </div>
+
+    <div class="spinner" id="stepSpin">
+      <div class="ring"></div>
+      <p style="color:var(--muted)">جاري محاكاة عملية الدفع...</p>
+    </div>
+
+    <div class="result" id="stepResult">
+      <div class="ic" id="resIcon"></div>
+      <h3 id="resTitle"></h3>
+      <p id="resMsg"></p>
+      <div class="receipt" id="receiptBox" style="display:none">
+        <div><span>رقم العملية</span><b id="rcId"></b></div>
+        <div><span>الصف</span><b id="rcGrade" style="direction:rtl"></b></div>
+        <div><span>المبلغ</span><b id="rcAmt"></b></div>
+        <div><span>الوسيلة</span><b id="rcMethod" style="direction:rtl"></b></div>
+      </div>
+      <p class="warn" id="resWarn">⚠️ ده إيصال محاكاة، مش إيصال دفع حقيقي.</p>
+      <div class="mrow">
+        <button class="btn" onclick="closeCheckout()">تم</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* SIMULATED DEMO ONLY - no network calls, no real data, localStorage only */
+var current=null;
+function openCheckout(btn){
+  var card=btn.closest('.plan');
+  current={grade:card.dataset.grade,price:card.dataset.price};
+  document.getElementById('orderSummary').innerHTML=
+    'اشتراك شهري — <b>'+current.grade+'</b><br>الإجمالي: <b>'+current.price+' ج.م</b> <span style="color:var(--muted)">(مبلغ تجريبي)</span>';
+  show('stepForm');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeCheckout(){document.getElementById('overlay').classList.remove('open');}
+function show(id){
+  ['stepForm','stepSpin','stepResult'].forEach(function(s){
+    document.getElementById(s).style.display=(s===id)?'block':'none';
+  });
+}
+function simulate(ok){
+  show('stepSpin');
+  setTimeout(function(){
+    var method=document.querySelector('#methods input:checked').value;
+    if(ok){
+      var tx='TEST-'+Math.random().toString(36).slice(2,8).toUpperCase();
+      var until=new Date(Date.now()+30*864e5);
+      var sub={grade:current.grade,price:current.price,tx:tx,method:method,until:until.toISOString()};
+      try{localStorage.setItem('demo_sub',JSON.stringify(sub));}catch(e){}
+      document.getElementById('resIcon').textContent='✅';
+      document.getElementById('resTitle').textContent='تمت محاكاة الدفع بنجاح';
+      document.getElementById('resMsg').textContent='اتفعل اشتراك تجريبي لصف '+current.grade+' لمدة شهر. مفيش أي فلوس اتدفعت.';
+      document.getElementById('rcId').textContent=tx;
+      document.getElementById('rcGrade').textContent=current.grade;
+      document.getElementById('rcAmt').textContent=current.price+' EGP (TEST)';
+      document.getElementById('rcMethod').textContent=method+' (تجريبي)';
+      document.getElementById('receiptBox').style.display='block';
+      document.getElementById('resWarn').style.display='block';
+    }else{
+      document.getElementById('resIcon').textContent='❌';
+      document.getElementById('resTitle').textContent='محاكاة: الدفع فشل';
+      document.getElementById('resMsg').textContent='دي محاكاة لحالة رفض العملية. في النظام الحقيقي الطالب بيقدر يحاول تاني أو يختار وسيلة مختلفة.';
+      document.getElementById('receiptBox').style.display='none';
+      document.getElementById('resWarn').style.display='none';
+    }
+    show('stepResult');
+    renderStatus();
+  },1500);
+}
+function renderStatus(){
+  var sub=null;
+  try{sub=JSON.parse(localStorage.getItem('demo_sub')||'null');}catch(e){}
+  var box=document.getElementById('statusBox');
+  document.querySelectorAll('.plan .subbed').forEach(function(t){t.remove();});
+  if(sub&&sub.grade){
+    box.style.display='block';
+    var d=new Date(sub.until);
+    document.getElementById('statusText').textContent=
+      'اشتراك تجريبي فعّال: '+sub.grade+' — عملية '+sub.tx+' — صالح حتى '+d.toLocaleDateString('ar-EG')+' (بيانات محاكاة محفوظة على جهازك فقط).';
+    document.querySelectorAll('.plan').forEach(function(p){
+      if(p.dataset.grade===sub.grade){
+        var t=document.createElement('span');t.className='subbed';t.textContent='اشتراك تجريبي فعّال';
+        p.appendChild(t);
+      }
+    });
+  }else{
+    box.style.display='none';
+  }
+}
+function cancelDemo(){
+  try{localStorage.removeItem('demo_sub');}catch(e){}
+  renderStatus();
+}
+renderStatus();
+</script>
+</body>
+</html>

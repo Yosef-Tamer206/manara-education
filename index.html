@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>منصة الأستاذ أحمد منصور | رياضيات الثانوية العامة</title>
-<meta name="description" content="منصة تعليمية لمدرس: شرح مبسط، حصص مباشرة، واجبات واختبارات بتصحيح فوري ومتابعة تقدم الطالب.">
+<title>منصة الأستاذ محمد نصر | فيزياء الثانوية العامة</title>
+<meta name="description" content="منصة الأستاذ محمد نصر لتعليم الفيزياء: دروس واختبارات وواجبات ومتابعة للطلاب.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -82,7 +82,7 @@ h1.pt{font-size:32px;font-weight:800;margin-bottom:6px}
 .opt.right{border-color:var(--ok);background:#e9f7f0}.opt.wrong{border-color:var(--bad);background:#fdeeee}
 .score{font-size:36px;font-weight:800}
 .kpi b{font-size:30px;display:block;line-height:1.2}.kpi span{color:var(--muted);font-size:14px}
-input[type=text],textarea,select{width:100%;font-family:inherit;font-size:15px;border:1.5px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink)}
+input,textarea,select{width:100%;font-family:inherit;font-size:15px;border:1.5px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink)}
 label{display:block;font-weight:700;font-size:14px;margin:12px 0 5px}
 .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 18px;font-weight:700;color:var(--muted)}.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .modal{position:fixed;inset:0;background:rgba(15,31,61,.55);display:none;place-items:center;z-index:50;padding:20px}.modal.show{display:grid}
@@ -93,126 +93,127 @@ label{display:block;font-weight:700;font-size:14px;margin:12px 0 5px}
 @media(max-width:900px){.hero .wrap{grid-template-columns:1fr;padding:48px 20px}.hero h1{font-size:34px}.g3,.g4{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1fr}.nav nav a:not(.keep){display:none}}
 @media(max-width:600px){.g3,.g2,.g4{grid-template-columns:1fr}.nav{gap:10px}.logo span{font-size:15px}section{padding:44px 0}.sh h2{font-size:26px}.tstats b{font-size:20px}table{font-size:14px}th,td{padding:10px 8px}}
 </style>
+
+
 </head>
 <body>
-<header><div class="wrap nav">
-  <a class="logo" href="#/"><i>∑</i><span>أ. أحمد منصور</span></a>
-  <nav><a href="#/" data-r="home">الرئيسية</a><a href="#/courses" data-r="courses">الكورسات</a><a href="#/dashboard" data-r="dashboard" class="keep">مساري</a><a href="#/teacher" data-r="teacher">لوحة المدرس</a></nav>
-  <span id="who"></span>
-</div></header>
+<header><div class="wrap nav"><a class="logo" href="#/"><i>ف</i><span>أ. محمد نصر</span></a><nav id="nav"></nav><span id="who"></span></div></header>
 <main id="app"></main>
-<footer><div class="wrap"><div>منصة الأستاذ أحمد منصور · نسخة تجريبية</div><div>البيانات المعروضة أمثلة. التقدم والنتائج محفوظة على جهازك فقط.</div></div></footer>
-<div class="modal" id="login"><div class="box">
-  <h2 style="font-size:24px">أهلًا بيك</h2><p style="color:var(--muted)">سجّل بياناتك عشان نحفظ تقدمك.</p>
-  <label>اسم الطالب</label><input type="text" id="lname" placeholder="مثال: يوسف محمد">
-  <label>الصف</label><select id="lgrade"><option>الصف الثاني الثانوي</option><option selected>الصف الثالث الثانوي</option></select>
-  <div style="display:flex;gap:10px;margin-top:20px"><button class="btn gold" style="flex:1" onclick="doLogin()">ابدأ</button><button class="btn ghost" onclick="closeLogin()">إلغاء</button></div>
-</div></div>
+<footer><div class="wrap"><span>منصة الأستاذ محمد نصر · فيزياء</span><span>الدروس والاختبارات والواجبات</span></div></footer>
+<div class="modal" id="auth"><div class="box" id="authbox"></div></div>
 <div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const COURSES=[
-{id:'alg',t:'الجبر والتفاضل',g:'الصف الثالث الثانوي',ic:'ƒ(x)',c:'linear-gradient(135deg,#1b3263,#3d63b8)',price:'٤٥٠ ج / الترم',desc:'من الدوال والنهايات حتى المشتقات وتطبيقاتها، بحلول مفصلة وأسئلة امتحانات.',
- lessons:[
- {t:'مفهوم الدالة والمجال',d:'12 دقيقة',h:'<p>الدالة قاعدة تربط كل عنصر من المجال بعنصر واحد فقط من المدى.</p><div class="eq">f(x) = √(x − 2)</div><p>المجال هنا كل قيم x التي تجعل ما تحت الجذر غير سالب.</p><ul><li>اشترط x − 2 ≥ 0</li><li>إذن المجال: [2 , ∞)</li></ul>'},
- {t:'النهايات وخواصها',d:'15 دقيقة',h:'<p>النهاية هي القيمة التي تقترب منها الدالة عندما تقترب x من نقطة معينة.</p><div class="eq">lim (x²−4)/(x−2) = 4 , x→2</div><p>نحلل البسط (x−2)(x+2) ثم نختصر ونعوض.</p>'},
- {t:'قواعد الاشتقاق',d:'18 دقيقة',h:'<p>أهم قواعد المشتقات الأساسية:</p><div class="eq">d/dx (xⁿ) = n·xⁿ⁻¹</div><div class="eq">d/dx (sin x) = cos x</div><p>مثال: مشتقة 3x⁴ هي 12x³.</p>'},
- {t:'تطبيقات: القيم العظمى والصغرى',d:'20 دقيقة',h:'<p>نساوي المشتقة الأولى بالصفر لإيجاد النقاط الحرجة، ثم نفحص إشارة المشتقة الثانية.</p><div class="eq">f″(x) &gt; 0 ⇒ قيمة صغرى</div>'}],
- quiz:[
- {q:'ما مجال الدالة f(x) = √(x − 2) ؟',o:['(−∞ , 2]','[2 , ∞)','ℝ','(2 , ∞)'],a:1},
- {q:'مشتقة الدالة 3x⁴ تساوي:',o:['12x³','3x³','12x⁴','4x³'],a:0},
- {q:'إذا كانت f″(x) > 0 عند نقطة حرجة فهي:',o:['قيمة عظمى','نقطة انعطاف','قيمة صغرى','لا يمكن تحديدها'],a:2}]},
-{id:'geo',t:'الهندسة وحساب المثلثات',g:'الصف الثاني الثانوي',ic:'△',c:'linear-gradient(135deg,#7a4b0b,#d9971b)',price:'٣٥٠ ج / الترم',desc:'قوانين المثلثات والدوائر والتحويلات بشرح مرئي وتدريبات تدريجية.',
- lessons:[
- {t:'النسب المثلثية الأساسية',d:'14 دقيقة',h:'<p>في المثلث القائم:</p><div class="eq">sin θ = المقابل / الوتر</div><div class="eq">cos θ = المجاور / الوتر</div><div class="eq">tan θ = المقابل / المجاور</div>'},
- {t:'قانونا الجيب وجيب التمام',d:'17 دقيقة',h:'<p>قانون الجيب لأي مثلث:</p><div class="eq">a / sin A = b / sin B = c / sin C</div>'},
- {t:'الدائرة والزوايا',d:'16 دقيقة',h:'<p>الزاوية المحيطية تساوي نصف الزاوية المركزية المشتركة معها في نفس القوس.</p>'},
- {t:'مراجعة وحل نماذج',d:'25 دقيقة',h:'<p>نحل معًا نموذجًا كاملًا بنظام الامتحان وتوزيع الدرجات.</p>'}],
- quiz:[
- {q:'في مثلث قائم، sin θ يساوي:',o:['المجاور / الوتر','المقابل / الوتر','المقابل / المجاور','الوتر / المقابل'],a:1},
- {q:'قيمة sin 30° تساوي:',o:['1','√3/2','1/2','0'],a:2},
- {q:'الزاوية المحيطية تساوي ..... الزاوية المركزية المشتركة معها في القوس:',o:['ضعف','نصف','ثلث','مثل'],a:1}]},
-{id:'rev',t:'المراجعة النهائية',g:'الصف الثالث الثانوي',ic:'✓',c:'linear-gradient(135deg,#0f6b4a,#35b17f)',price:'٣٠٠ ج',desc:'مراجعة مركزة على أهم الأفكار مع نماذج امتحانات وأخطاء شائعة.',
- lessons:[
- {t:'أهم القوانين في صفحة واحدة',d:'10 دقائق',h:'<p>ملخص القوانين الأساسية للمنهج مع أمثلة سريعة على كل قانون.</p>'},
- {t:'الأخطاء الشائعة في الامتحان',d:'12 دقيقة',h:'<ul><li>نسيان فحص المجال</li><li>الخطأ في إشارة المشتقة الثانية</li><li>عدم كتابة الوحدة في المسائل التطبيقية</li></ul>'},
- {t:'نموذج امتحان كامل',d:'30 دقيقة',h:'<p>حل نموذج بزمن حقيقي مع شرح استراتيجية توزيع الوقت.</p>'}],
- quiz:[
- {q:'قبل حل أي مسألة دالة، أول خطوة هي:',o:['التعويض مباشرة','تحديد المجال','الرسم فقط','الحذف'],a:1},
- {q:'مشتقة x² تساوي:',o:['x','2x','x²','2'],a:1}]}
-];
-const SCHEDULE=[['السبت','٦:٠٠ م','الثالث الثانوي','الجبر والتفاضل'],['الأحد','٥:٠٠ م','الثاني الثانوي','حساب المثلثات'],['الثلاثاء','٦:٠٠ م','الثالث الثانوي','حل نماذج'],['الخميس','٤:٠٠ م','الصفين','مراجعة وأسئلة الطلاب']];
-const DEMO_STUDENTS=[['سارة أحمد','الثالث الثانوي',82,5],['محمود علي','الثالث الثانوي',74,4],['ملك حسن','الثاني الثانوي',91,6],['عمر خالد','الثاني الثانوي',65,2],['نور إبراهيم','الثالث الثانوي',88,5]];
+const SB_URL='https://xohsjnifuhftevskqkqe.supabase.co',SB_KEY='sb_publishable_zgAOL3GFyUtKE_WrnRCCLw_SihFDIlX';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const GRADES=['اولي ثانوي','تانية بكالوريا','تالتة بكالوريا'];
 const $=s=>document.querySelector(s);
-const store={get(k,d){try{return JSON.parse(localStorage.getItem('mt:'+k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem('mt:'+k,JSON.stringify(v))}catch(e){}}};
-let user=store.get('user',null),prog=store.get('prog',{}),scores=store.get('scores',{}),anns=store.get('anns',[{t:'بدء حصص الترم الجديد يوم السبت، الرجاء مراجعة الدرس الأول.',d:'اليوم'}]),extra=store.get('extra',{}),subs=store.get('subs',[]);
-const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2200)};
-const all=c=>[...c.lessons,...(extra[c.id]||[])];
-const pct=c=>{const L=all(c);return Math.round(100*L.filter((_,i)=>prog[c.id+':'+i]).length/L.length)};
-function needLogin(next){if(user)return false;window._next=next;$('#login').classList.add('show');return true}
-function closeLogin(){$('#login').classList.remove('show')}
-function doLogin(){const n=$('#lname').value.trim();if(!n){toast('اكتب اسمك أولًا');return}user={n,g:$('#lgrade').value};store.set('user',user);closeLogin();renderWho();toast('أهلًا '+n);if(window._next)location.hash=window._next;route()}
-function logout(){user=null;localStorage.removeItem('mt:user');renderWho();location.hash='#/'}
-function renderWho(){$('#who').innerHTML=user?`<span style="font-weight:700;font-size:14px">${user.n}</span> <button class="btn ghost sm" onclick="logout()">خروج</button>`:`<button class="btn sm gold" onclick="$('#login').classList.add('show')">تسجيل الدخول</button>`}
-const courseCard=c=>`<a class="card course" href="#/course/${c.id}"><div class="cover" style="background:${c.c}">${c.ic}</div><div class="bd"><span class="pill">${c.g}</span><h3>${c.t}</h3><p style="color:var(--muted);font-size:15px">${c.desc}</p><div class="meta"><span>${all(c).length} دروس</span><span>${c.price}</span></div>${user?`<div class="bar"><i style="width:${pct(c)}%"></i></div>`:''}</div></a>`;
-const V={
-home(){return `
-<div class="hero"><div class="wrap"><div><span class="tag">رياضيات الثانوية العامة</span>
-<h1>رياضيات أوضح مع <b>أ. أحمد منصور</b>، ومتابعة لكل طالب</h1>
-<p>شرح مبسط خطوة بخطوة، حصص مباشرة أسبوعية، واجبات واختبارات بتصحيح فوري، وتقرير بتقدمك طول الترم.</p>
-<div class="cta"><a class="btn gold" href="#/courses">تصفح الكورسات</a><a class="btn ghost" href="#/dashboard">ادخل لمسارك</a></div></div>
-<div class="tcard"><div class="avatar">أ</div><h3>أ. أحمد منصور</h3><div class="sub">مدرس رياضيات · المرحلة الثانوية</div>
-<div class="tstats"><div><b>١٢</b><span>سنة خبرة</span></div><div><b>٣</b><span>كورسات</span></div><div><b>١٠+</b><span>حصة شهريًا</span></div></div></div></div></div>
-<section><div class="wrap"><div class="sh"><small>كل اللي يحتاجه الطالب</small><h2>تجربة تعلم منظمة من أول درس لآخر امتحان</h2></div>
-<div class="grid g4">
-${[['▶','شرح مرتب','كل درس له ملخص مكتوب، وفي النسخة الحقيقية يُضاف له فيديو الشرح.'],['✎','اختبارات فورية','أسئلة بعد كل كورس بتصحيح لحظي وإظهار الإجابة الصحيحة.'],['⇧','واجبات','سلّم واجبك من المنصة والمدرس يتابعه من لوحته.'],['▤','متابعة التقدم','نسبة إنجاز ونتائج الاختبارات في صفحة واحدة.']].map(f=>`<div class="card feat"><div class="ic">${f[0]}</div><h3>${f[1]}</h3><p>${f[2]}</p></div>`).join('')}</div></div></section>
-<section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="sh"><small>الكورسات</small><h2>اختار كورس صفك</h2></div><div class="grid g3">${COURSES.map(courseCard).join('')}</div></div></section>
-<section><div class="wrap"><div class="sh"><small>جدول الحصص</small><h2>الحصص المباشرة هذا الأسبوع</h2><p>جدول تجريبي. المدرس يعدله من لوحته.</p></div>
-<div class="card" style="padding:0;overflow:auto"><table><tr><th>اليوم</th><th>الميعاد</th><th>الصف</th><th>الموضوع</th></tr>${SCHEDULE.map(r=>`<tr><td><b>${r[0]}</b></td><td class="live">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</table></div></div></section>
-<section style="padding-top:0"><div class="wrap faq"><div class="sh"><small>أسئلة شائعة</small><h2>قبل ما تبدأ</h2></div>
-<details><summary>إزاي أشترك في كورس؟</summary><p>سجّل اسمك واختار الكورس. في النسخة الحقيقية هيتم الدفع والتفعيل من المدرس.</p></details>
-<details><summary>هل أقدر أراجع الدرس أكتر من مرة؟</summary><p>أيوه، الدروس والملخصات متاحة طول مدة الكورس.</p></details>
-<details><summary>إزاي أعرف مستواي؟</summary><p>من صفحة مساري هتلاقي نسبة إنجازك ودرجات اختباراتك.</p></details></div></section>`},
-courses(){return `<div class="page wrap"><h1 class="pt">الكورسات</h1><p style="color:var(--muted)">اختار الصف المناسب لك.</p><div class="tabs" id="tabs"></div><div class="grid g3" id="cl"></div></div>`},
-course(id){const c=COURSES.find(x=>x.id===id);if(!c)return '<div class="page wrap">الكورس غير موجود</div>';const L=all(c);const i=window._les??0;const l=L[Math.min(i,L.length-1)];
-return `<div class="page wrap"><div class="crumbs"><a href="#/courses">الكورسات</a> / ${c.t}</div><h1 class="pt">${c.t}</h1><span class="pill">${c.g}</span>
-<div class="layout"><aside class="card lessons"><div style="padding:10px 12px"><b>${pct(c)}% مكتمل</b><div class="bar" style="margin-top:6px"><i style="width:${pct(c)}%"></i></div></div>
-${L.map((x,k)=>`<button class="les ${k==i?'on':''} ${prog[c.id+':'+k]?'done':''}" onclick="openLes('${c.id}',${k})"><span class="n">${prog[c.id+':'+k]?'✓':k+1}</span><span><b style="display:block">${x.t}</b><small style="color:var(--muted)">${x.d||''}</small></span></button>`).join('')}
-<button class="les ${i==='quiz'?'on':''}" onclick="openLes('${c.id}','quiz')"><span class="n">؟</span><b>اختبار الكورس</b></button></aside>
-<div class="card" id="lbody">${i==='quiz'?quizHTML(c):`<div class="player"><div><b>▶</b>مكان فيديو الدرس: ${l.t}<br><small style="opacity:.8">نسخة تجريبية، لا يوجد فيديو فعلي هنا</small></div></div><div class="prose"><h3>${l.t}</h3>${fxh(l.h||'<p>محتوى الدرس.</p>')}</div><div style="margin-top:20px;display:flex;gap:10px"><button class="btn gold" onclick="markDone('${c.id}',${i})">${prog[c.id+':'+i]?'✓ تم الإنجاز':'تم الدرس'}</button>${i<L.length-1?`<button class="btn ghost" onclick="openLes('${c.id}',${i+1})">الدرس التالي</button>`:`<button class="btn ghost" onclick="openLes('${c.id}','quiz')">ابدأ الاختبار</button>`}</div>`}</div></div></div>`},
-dashboard(){if(!user)return '<div class="page wrap"><div class="card" style="text-align:center;padding:50px"><h2>سجّل دخولك لمتابعة تقدمك</h2><p style="color:var(--muted);margin:8px 0 18px">بياناتك محفوظة على جهازك.</p><button class="btn gold" onclick="needLogin(\'#/dashboard\')">تسجيل الدخول</button></div></div>';
-const done=Object.values(prog).filter(Boolean).length;const sc=Object.values(scores);const avg=sc.length?Math.round(sc.reduce((a,b)=>a+b,0)/sc.length):0;
-return `<div class="page wrap"><h1 class="pt">أهلًا ${user.n}</h1><p style="color:var(--muted)">${user.g}</p>
-<div class="grid g4" style="margin:22px 0"><div class="card kpi"><b>${done}</b><span>درس مكتمل</span></div><div class="card kpi"><b>${sc.length}</b><span>اختبار تم حله</span></div><div class="card kpi"><b>${sc.length?avg+'%':'—'}</b><span>متوسط الدرجات</span></div><div class="card kpi"><b>${subs.length}</b><span>واجب مُسلَّم</span></div></div>
-<div class="grid g2"><div class="card"><h3 style="margin-bottom:14px">تقدمك في الكورسات</h3>${COURSES.map(c=>`<a href="#/course/${c.id}" style="display:block;margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-weight:700"><span>${c.t}</span><span>${pct(c)}%</span></div><div class="bar" style="margin-top:6px"><i style="width:${pct(c)}%"></i></div>${scores[c.id]!=null?`<small style="color:var(--muted)">آخر اختبار: ${scores[c.id]}%</small>`:''}</a>`).join('')}</div>
-<div class="card"><h3>تسليم واجب</h3><label>الكورس</label><select id="hc">${COURSES.map(c=>`<option>${c.t}</option>`).join('')}</select><label>ملاحظة أو إجابة</label><textarea id="ht" rows="4" placeholder="اكتب حلك أو ملاحظتك للمدرس"></textarea><button class="btn gold" style="margin-top:14px" onclick="sendHW()">تسليم</button>
-<div style="margin-top:18px">${subs.slice(-3).reverse().map(s=>`<div class="ann"><b>${s.c}</b><br><small style="color:var(--muted)">تم التسليم · ${s.t||'بدون نص'}</small></div>`).join('')}</div></div></div>
-<h3 style="margin:28px 0 12px">إعلانات المدرس</h3>${anns.map(a=>`<div class="ann">${a.t}<br><small style="color:var(--muted)">${a.d}</small></div>`).join('')}</div>`},
-teacher(){const mine=user?[[user.n,user.g.replace('الصف ',''),scores.alg??scores.geo??scores.rev??'—',Object.values(prog).filter(Boolean).length]]:[];
-const rows=[...mine,...DEMO_STUDENTS];
-return `<div class="page wrap"><h1 class="pt">لوحة المدرس</h1><div class="note" style="margin:10px 0 22px">واجهة تجريبية لعرض ما يراه المدرس. في النسخة الحقيقية تكون محمية بحساب خاص.</div>
-<div class="grid g4" style="margin-bottom:22px"><div class="card kpi"><b>${rows.length}</b><span>طالب</span></div><div class="card kpi"><b>${COURSES.length}</b><span>كورسات</span></div><div class="card kpi"><b>${subs.length}</b><span>واجبات مستلمة</span></div><div class="card kpi"><b>${Math.round(DEMO_STUDENTS.reduce((a,b)=>a+b[2],0)/DEMO_STUDENTS.length)}%</b><span>متوسط درجات الطلاب</span></div></div>
-<div class="grid g2" style="align-items:start"><div class="card" style="padding:0;overflow:auto"><table><tr><th>الطالب</th><th>الصف</th><th>الدرجة</th><th>دروس</th></tr>${rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}${typeof r[2]=='number'?'%':''}</td><td>${r[3]}</td></tr>`).join('')}</table></div>
-<div class="card"><h3>إعلان جديد للطلاب</h3><textarea id="an" rows="3" placeholder="اكتب الإعلان"></textarea><button class="btn gold sm" style="margin-top:10px" onclick="addAnn()">نشر</button>
-<h3 style="margin-top:24px">إضافة درس</h3><label>الكورس</label><select id="ac">${COURSES.map(c=>`<option value="${c.id}">${c.t}</option>`).join('')}</select><label>عنوان الدرس</label><input type="text" id="at"><button class="btn sm" style="margin-top:10px" onclick="addLesson()">إضافة</button></div></div>
-${subs.length?`<h3 style="margin:26px 0 10px">الواجبات المستلمة</h3>${subs.map(s=>`<div class="ann"><b>${s.n}</b> · ${s.c}<br>${s.t||''}</div>`).join('')}`:''}</div>`}
-};
-const fx=s=>s.replace(/([^\u0600-\u06FF]+)/g,m=>{if(!/[A-Za-z0-9√∞∑ƒ]/.test(m))return m;const a=m.match(/^[\s:.,؟!]*/)[0],b=m.slice(a.length).match(/[\s:.,؟!]*$/)[0],c=m.slice(a.length,m.length-b.length);return a+'<span style="direction:ltr;unicode-bidi:isolate;display:inline-block">'+c+'</span>'+b});
-const fxh=h=>h.split(/(<[^>]+>)/).map(x=>x.startsWith('<')?x:fx(x)).join('');
-function quizHTML(c){return `<h3>اختبار: ${c.t}</h3><p style="color:var(--muted);margin-bottom:18px">${c.quiz.length} أسئلة · التصحيح فوري</p><form id="qf">${c.quiz.map((q,i)=>`<div class="q"><h4>${i+1}. ${fx(q.q)}</h4>${q.o.map((o,k)=>`<label class="opt" style="font-weight:600;font-size:15px;margin:0 0 8px"><input type="radio" name="q${i}" value="${k}">${fx(o)}</label>`).join('')}</div>`).join('')}<button type="button" class="btn gold" onclick="grade('${c.id}')">تصحيح</button></form><div id="res"></div>`}
-function openLes(id,i){if(needLogin('#/course/'+id)){window._les=i;return}window._les=i;route()}
-function markDone(id,i){if(needLogin('#/course/'+id))return;prog[id+':'+i]=true;store.set('prog',prog);route();toast('تم حفظ تقدمك')}
-function grade(id){const c=COURSES.find(x=>x.id===id);let r=0;const f=$('#qf');c.quiz.forEach((q,i)=>{const sel=f.querySelector(`input[name=q${i}]:checked`);f.querySelectorAll(`input[name=q${i}]`).forEach(inp=>{const lab=inp.parentElement;if(+inp.value===q.a)lab.classList.add('right');else if(inp.checked)lab.classList.add('wrong');inp.disabled=true});if(sel&&+sel.value===q.a)r++});
-const p=Math.round(100*r/c.quiz.length);scores[id]=p;store.set('scores',scores);$('#res').innerHTML=`<div class="card" style="margin-top:12px;text-align:center"><div class="score" style="color:${p>=60?'var(--ok)':'var(--bad)'}">${r} / ${c.quiz.length}</div><p>${p>=60?'ممتاز، كمل على نفس المستوى':'راجع الدروس وجرب تاني'}</p><button class="btn ghost sm" onclick="window._les='quiz';route()">إعادة المحاولة</button></div>`}
-function sendHW(){const t=$('#ht').value.trim();subs.push({n:user.n,c:$('#hc').value,t});store.set('subs',subs);route();toast('تم تسليم الواجب')}
-function addAnn(){const t=$('#an').value.trim();if(!t)return;anns.unshift({t,d:'الآن'});store.set('anns',anns);route();toast('تم نشر الإعلان')}
-function addLesson(){const t=$('#at').value.trim();if(!t)return;const c=$('#ac').value;(extra[c]=extra[c]||[]).push({t,d:'جديد',h:'<p>تمت إضافة الدرس من لوحة المدرس. أضف المحتوى لاحقًا.</p>'});store.set('extra',extra);route();toast('تمت إضافة الدرس')}
-function route(){const h=location.hash.slice(1)||'/';const [,p,a]=h.split('/');const r=p||'home';
-if(r!=='course')window._les=undefined;
-$('#app').innerHTML=r==='course'?V.course(a):(V[r]||V.home)();
-document.querySelectorAll('.nav nav a').forEach(x=>x.classList.toggle('on',x.dataset.r===r||(r==='course'&&x.dataset.r==='courses')));
-if(r==='courses'){let g='الكل';const draw=()=>{const gs=['الكل',...new Set(COURSES.map(c=>c.g))];$('#tabs').innerHTML=gs.map(x=>`<button class="${x===g?'on':''}" data-g="${x}">${x}</button>`).join('');$('#cl').innerHTML=COURSES.filter(c=>g==='الكل'||c.g===g).map(courseCard).join('');$('#tabs').onclick=e=>{if(e.target.dataset.g){g=e.target.dataset.g;draw()}}};draw()}
-if(r!=='course')window.scrollTo(0,0)}
-window.addEventListener('hashchange',route);renderWho();route();
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let ME=null,PROF=null;
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3200)}
+function embed(u){if(!u)return`<div class="player"><div><b>▶</b>لا يوجد فيديو لهذا الدرس بعد</div></div>`;
+ let m=u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+ if(m)return`<div style="aspect-ratio:16/9;margin-bottom:20px"><iframe style="width:100%;height:100%;border:0;border-radius:14px" src="https://www.youtube-nocookie.com/embed/${m[1]}" allowfullscreen></iframe></div>`;
+ return`<p><a class="btn ghost sm" target="_blank" rel="noopener" href="${esc(u)}">فتح الفيديو</a></p>`}
+async function init(){
+ const {data:{session}}=await sb.auth.getSession();ME=session?.user||null;
+ if(ME){const {data}=await sb.from('profiles').select('*').eq('id',ME.id).single();PROF=data}
+ renderNav();route()}
+function renderNav(){
+ $('#who').innerHTML=PROF?`<span style="font-weight:700">${esc(PROF.full_name)}</span> <button class="btn ghost sm" onclick="logout()">خروج</button>`:`<button class="btn gold sm" onclick="openAuth()">دخول / تسجيل</button>`;
+ $('#nav').innerHTML=PROF?.role==='teacher'?`<a href="#/teacher" class="keep">لوحة المدرس</a>`:PROF?`<a href="#/me" class="keep">منصتي</a>`:`<a href="#/" class="keep">الرئيسية</a>`}
+async function logout(){await sb.auth.signOut();ME=PROF=null;renderNav();location.hash='#/';route()}
+function openAuth(mode='in'){const b=$('#authbox');b.dataset.mode=mode;drawAuth();$('#auth').classList.add('show')}
+function drawAuth(){const m=$('#authbox').dataset.mode;$('#authbox').innerHTML=`
+<h3>${m==='in'?'تسجيل الدخول':'إنشاء حساب طالب'}</h3>
+${m==='up'?`<label>الاسم بالكامل</label><input id="a_name" autocomplete="name"><label>الصف</label><select id="a_grade">${GRADES.map(g=>`<option>${g}</option>`).join('')}</select>`:''}
+<label>البريد الإلكتروني</label><input id="a_email" type="email" autocomplete="email" dir="ltr">
+<label>كلمة السر</label><input id="a_pass" type="password" autocomplete="${m==='in'?'current-password':'new-password'}" dir="ltr" placeholder="6 حروف على الأقل">
+<div id="a_err" style="color:var(--bad);font-size:14px;margin-top:8px"></div>
+<div style="display:flex;gap:10px;margin-top:16px"><button class="btn" onclick="doAuth()">${m==='in'?'دخول':'إنشاء الحساب'}</button><button class="btn ghost" onclick="$('#auth').classList.remove('show')">إلغاء</button></div>
+<p style="margin-top:14px;font-size:14px;color:var(--muted)">${m==='in'?'مفيش حساب؟':'عندك حساب؟'} <a href="javascript:void(0)" style="color:var(--ink2);font-weight:700" onclick="openAuth('${m==='in'?'up':'in'}')">${m==='in'?'سجّل كطالب':'سجّل دخول'}</a></p>
+${m==='up'?'<p class="note" style="margin-top:10px">حسابك بيتفعّل بعد موافقة المدرس.</p>':''}`}
+async function doAuth(){const m=$('#authbox').dataset.mode,email=$('#a_email').value.trim(),password=$('#a_pass').value,err=$('#a_err');err.textContent='';
+ let r;if(m==='up'){const full_name=$('#a_name').value.trim();if(!full_name){err.textContent='اكتب اسمك';return}
+  r=await sb.auth.signUp({email,password,options:{data:{full_name,grade:$('#a_grade').value}}})}
+ else r=await sb.auth.signInWithPassword({email,password});
+ if(r.error){err.textContent=({'Invalid login credentials':'البريد أو كلمة السر غلط','User already registered':'الحساب ده موجود، سجّل دخول'})[r.error.message]||r.error.message;return}
+ if(!r.data.session){err.textContent='تعذر تسجيل الدخول بعد إنشاء الحساب، جرّب الدخول.';return}
+ $('#auth').classList.remove('show');await init();location.hash=PROF?.role==='teacher'?'#/teacher':'#/me'}
+function route(){const h=location.hash||'#/';const [,p,a,b]=h.split('/');
+ const go=({'':home,me:student,teacher:teacher,course:()=>course(a),lesson:()=>lesson(a)})[p||''];(go||home)();window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);
+function home(){$('#app').innerHTML=`
+<section class="hero"><div class="wrap"><div><span class="tag">فيزياء · الثانوية العامة</span>
+<h1>مع <b>أ. محمد نصر</b> الفيزياء تبقى أسهل</h1>
+<p>منصة الأستاذ محمد نصر لطلاب أولى ثانوي وتانية وتالتة بكالوريا: دروس، اختبارات بتصحيح فوري، وواجبات بتتسلّم للمدرس مباشرة.</p>
+<div class="cta">${PROF?`<a class="btn gold" href="#/${PROF.role==='teacher'?'teacher':'me'}">ادخل منصتك</a>`:`<button class="btn gold" onclick="openAuth('up')">سجّل كطالب</button><button class="btn ghost" onclick="openAuth('in')">عندي حساب</button>`}</div></div>
+<div class="tcard"><div class="avatar">م</div><h3>أ. محمد نصر</h3><div class="sub">مدرس فيزياء</div>
+<div class="tstats">${GRADES.map((g,i)=>`<div><b>${i+1}</b><span>${g}</span></div>`).join('')}</div></div></div></section>
+<section><div class="wrap"><div class="sh"><small>إزاي بتشتغل</small><h2>ثلاث خطوات</h2></div><div class="grid g3">
+<div class="card feat"><div class="ic">1</div><h3>سجّل حسابك</h3><p>اكتب اسمك وصفك وبريدك.</p></div>
+<div class="card feat"><div class="ic">2</div><h3>المدرس يوافق</h3><p>بعد الموافقة بتظهرلك دروس صفك.</p></div>
+<div class="card feat"><div class="ic">3</div><h3>اتعلّم وسلّم</h3><p>شوف الدرس، حل الاختبار، وسلّم الواجب.</p></div></div></div></section>`}
+async function student(){
+ if(!PROF){$('#app').innerHTML=`<div class="page wrap"><p>سجّل دخول الأول.</p></div>`;return openAuth()}
+ if(PROF.role==='teacher'){location.hash='#/teacher';return}
+ if(!PROF.approved){$('#app').innerHTML=`<div class="page wrap"><h1 class="pt">أهلاً ${esc(PROF.full_name)}</h1><div class="note">حسابك مسجّل وبينتظر موافقة المدرس. هتظهرلك الدروس أول ما يتفعّل. افتح الصفحة تاني بعد شوية.</div></div>`;return}
+ $('#app').innerHTML=`<div class="page wrap"><p>جاري التحميل…</p></div>`;
+ const [cs,ls,pr,an,qr]=await Promise.all([sb.from('courses').select('*').eq('published',true).eq('grade',PROF.grade),sb.from('lessons').select('id,course_id'),sb.from('progress').select('lesson_id'),sb.from('announcements').select('*').order('created_at',{ascending:false}).limit(5),sb.from('quiz_results').select('*').order('taken_at',{ascending:false})]);
+ const done=new Set((pr.data||[]).map(x=>x.lesson_id));
+ $('#app').innerHTML=`<div class="page wrap"><h1 class="pt">أهلاً ${esc(PROF.full_name)}</h1><p style="color:var(--muted)">${esc(PROF.grade)}</p>
+${(an.data||[]).length?`<h3 style="margin:22px 0 10px">إعلانات المدرس</h3>${an.data.map(a=>`<div class="ann">${esc(a.body)}<div style="font-size:12px;color:var(--muted)">${new Date(a.created_at).toLocaleDateString('ar-EG')}</div></div>`).join('')}`:''}
+<h3 style="margin:22px 0 10px">كورساتك</h3><div class="grid g3">${(cs.data||[]).map(c=>{const L=(ls.data||[]).filter(l=>l.course_id===c.id),d=L.filter(l=>done.has(l.id)).length,pct=L.length?Math.round(d*100/L.length):0;
+ return`<a class="card course" href="#/course/${c.id}"><div class="bd"><h3>${esc(c.title)}</h3><p style="color:var(--muted);font-size:15px">${esc(c.description)}</p><div class="bar"><i style="width:${pct}%"></i></div><div class="meta"><span>${d} من ${L.length} دروس</span></div></div></a>`}).join('')||'<div class="note">لسه مفيش كورسات متاحة لصفك.</div>'}</div>
+<h3 style="margin:26px 0 10px">نتايج اختباراتك</h3><div class="card">${(qr.data||[]).length?`<table><tr><th>التاريخ</th><th>النتيجة</th></tr>${qr.data.map(r=>`<tr><td>${new Date(r.taken_at).toLocaleDateString('ar-EG')}</td><td>${r.score} / ${r.total}</td></tr>`).join('')}</table>`:'لسه ماحلّيتش اختبارات.'}</div></div>`}
+async function course(id){
+ if(!PROF||!PROF.approved&&PROF.role!=='teacher'){location.hash='#/me';return}
+ const [{data:c},{data:ls},{data:pr}]=await Promise.all([sb.from('courses').select('*').eq('id',id).single(),sb.from('lessons').select('*').eq('course_id',id).order('position'),sb.from('progress').select('lesson_id')]);
+ const done=new Set((pr||[]).map(x=>x.lesson_id));
+ $('#app').innerHTML=`<div class="page wrap"><div class="crumbs"><a href="#/me">منصتي</a> / ${esc(c?.title)}</div><h1 class="pt">${esc(c?.title)}</h1><p style="color:var(--muted)">${esc(c?.description)}</p>
+<div class="card lessons" style="margin-top:20px">${(ls||[]).map((l,i)=>`<a class="les ${done.has(l.id)?'done':''}" href="#/lesson/${l.id}"><span class="n">${done.has(l.id)?'✓':i+1}</span>${esc(l.title)}</a>`).join('')||'<p style="padding:14px">مفيش دروس لسه.</p>'}</div></div>`}
+async function lesson(id){
+ if(!PROF){location.hash='#/';return}
+ const {data:l}=await sb.from('lessons').select('*').eq('id',id).single();
+ const [{data:qs},{data:pr},{data:hw}]=await Promise.all([sb.from('quizzes').select('*').eq('lesson_id',id),sb.from('progress').select('lesson_id').eq('lesson_id',id),sb.from('homework').select('*').eq('lesson_id',id).eq('student_id',ME.id)]);
+ const done=(pr||[]).length>0;
+ $('#app').innerHTML=`<div class="page wrap"><div class="crumbs"><a href="#/me">منصتي</a> / <a href="#/course/${l.course_id}">الكورس</a></div><h1 class="pt">${esc(l.title)}</h1>
+<div class="card" style="margin-top:16px">${embed(l.video_url)}<div class="prose" style="white-space:pre-wrap">${esc(l.body)}</div>
+<div style="margin-top:18px"><button class="btn ${done?'ghost':'gold'}" onclick="markDone('${id}')">${done?'✓ تم المذاكرة':'علّم الدرس كمكتمل'}</button></div></div>
+${(qs||[]).length?`<div class="card" style="margin-top:20px"><h3>اختبار الدرس</h3><div id="quiz">${qs.map((q,i)=>`<div class="q"><h4>${i+1}. ${esc(q.question)}</h4>${q.options.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}">${esc(o)}</label>`).join('')}</div>`).join('')}<button class="btn" onclick='gradeQuiz("${id}")'>صحّح</button><div id="qres"></div></div></div>`:''}
+<div class="card" style="margin-top:20px"><h3>تسليم واجب</h3>${(hw||[]).map(h=>`<div class="ann">${esc(h.content)}<div style="font-size:12px;color:var(--muted)">اتسلّم ${new Date(h.submitted_at).toLocaleString('ar-EG')}</div></div>`).join('')}
+<textarea id="hw" rows="4" placeholder="اكتب حلك أو رابط ملف (Google Drive مثلاً)"></textarea><button class="btn" style="margin-top:10px" onclick="sendHW('${id}')">تسليم</button></div></div>`;
+ window._qs=qs}
+async function markDone(id){const {error}=await sb.from('progress').upsert({student_id:ME.id,lesson_id:id});if(error)return toast(error.message);toast('تم تسجيل التقدم');lesson(id)}
+async function gradeQuiz(id){const qs=window._qs;let s=0;qs.forEach((q,i)=>{const c=document.querySelector(`input[name=q${i}]:checked`);document.querySelectorAll(`input[name=q${i}]`).forEach(r=>{const o=r.closest('.opt');if(+r.value===q.correct)o.classList.add('right');else if(r.checked)o.classList.add('wrong')});if(c&&+c.value===q.correct)s++});
+ const {error}=await sb.from('quiz_results').insert({student_id:ME.id,lesson_id:id,score:s,total:qs.length});$('#qres').innerHTML=`<p class="score">${s} / ${qs.length}</p>`+(error?`<p style="color:var(--bad)">${esc(error.message)}</p>`:'<p style="color:var(--muted)">النتيجة اتحفظت.</p>')}
+async function sendHW(id){const content=$('#hw').value.trim();if(!content)return toast('اكتب الواجب الأول');const {error}=await sb.from('homework').insert({student_id:ME.id,lesson_id:id,content});if(error)return toast(error.message);toast('اتسلّم للمدرس');lesson(id)}
+/* teacher */
+let TAB='students';
+async function teacher(){
+ if(PROF?.role!=='teacher'){$('#app').innerHTML=`<div class="page wrap"><div class="note">الصفحة دي للمدرس فقط.</div></div>`;return}
+ const t=(k,l)=>`<button class="${TAB===k?'on':''}" onclick="TAB='${k}';teacher()">${l}</button>`;
+ $('#app').innerHTML=`<div class="page wrap"><h1 class="pt">لوحة المدرس</h1><div class="tabs">${t('students','الطلاب')}${t('courses','الكورسات والدروس')}${t('hw','الواجبات')}${t('ann','الإعلانات')}</div><div id="tb">…</div></div>`;
+ ({students:tStudents,courses:tCourses,hw:tHW,ann:tAnn})[TAB]()}
+async function tStudents(){const {data}=await sb.from('profiles').select('*').eq('role','student').order('created_at',{ascending:false});
+ $('#tb').innerHTML=`<div class="card"><table><tr><th>الاسم</th><th>الصف</th><th>الحالة</th><th></th></tr>${(data||[]).map(s=>`<tr><td>${esc(s.full_name)}</td><td>${esc(s.grade)}</td><td>${s.approved?'<span class="live">مفعّل</span>':'ينتظر'}</td><td><button class="btn sm ${s.approved?'ghost':'gold'}" onclick="setApproved('${s.id}',${!s.approved})">${s.approved?'إيقاف':'تفعيل'}</button></td></tr>`).join('')||'<tr><td colspan=4>لسه مفيش طلاب مسجلين.</td></tr>'}</table></div>`}
+async function setApproved(id,v){const {error}=await sb.from('profiles').update({approved:v}).eq('id',id);if(error)toast(error.message);tStudents()}
+async function tCourses(){const [{data:cs},{data:ls}]=await Promise.all([sb.from('courses').select('*').order('grade'),sb.from('lessons').select('id,title,course_id,position').order('position')]);
+ $('#tb').innerHTML=`<div class="grid g2"><div class="card"><h3>كورس جديد</h3><label>الاسم</label><input id="c_t"><label>وصف</label><textarea id="c_d" rows="2"></textarea><label>الصف</label><select id="c_g">${GRADES.map(g=>`<option>${g}</option>`).join('')}</select><button class="btn" style="margin-top:12px" onclick="addCourse()">إضافة</button></div>
+<div class="card"><h3>درس جديد</h3><label>الكورس</label><select id="l_c">${(cs||[]).map(c=>`<option value="${c.id}">${esc(c.title)} · ${esc(c.grade)}</option>`).join('')}</select><label>عنوان الدرس</label><input id="l_t"><label>رابط فيديو (YouTube) اختياري</label><input id="l_v" dir="ltr"><label>الشرح</label><textarea id="l_b" rows="4"></textarea><button class="btn" style="margin-top:12px" onclick="addLesson()">إضافة</button></div></div>
+<div class="card" style="margin-top:20px"><h3>الكورسات الحالية</h3><table><tr><th>الكورس</th><th>الصف</th><th>الدروس</th><th>النشر</th><th></th></tr>${(cs||[]).map(c=>`<tr><td>${esc(c.title)}</td><td>${esc(c.grade)}</td><td>${(ls||[]).filter(l=>l.course_id===c.id).map(l=>`<div>${esc(l.title)} <a href="javascript:void(0)" onclick="qPrompt('${l.id}')" style="color:var(--ink2)">+سؤال</a></div>`).join('')||'-'}</td><td>${c.published?'<span class="live">منشور</span>':'مسودة'}</td><td><button class="btn sm ghost" onclick="pub('${c.id}',${!c.published})">${c.published?'إخفاء':'نشر'}</button></td></tr>`).join('')}</table></div>`}
+async function addCourse(){const title=$('#c_t').value.trim();if(!title)return toast('اكتب اسم الكورس');const {error}=await sb.from('courses').insert({title,description:$('#c_d').value,grade:$('#c_g').value});if(error)toast(error.message);tCourses()}
+async function addLesson(){const title=$('#l_t').value.trim(),course_id=$('#l_c').value;if(!title||!course_id)return toast('اختار كورس واكتب عنوان');const {count}=await sb.from('lessons').select('id',{count:'exact',head:true}).eq('course_id',course_id);const {error}=await sb.from('lessons').insert({course_id,title,video_url:$('#l_v').value.trim()||null,body:$('#l_b').value,position:(count||0)+1});if(error)toast(error.message);else toast('اتضاف الدرس');tCourses()}
+async function pub(id,v){await sb.from('courses').update({published:v}).eq('id',id);tCourses()}
+async function qPrompt(lesson_id){const question=prompt('نص السؤال');if(!question)return;const o=prompt('الاختيارات مفصولة بـ | (مثال: 5|10|15|20)');if(!o)return;const options=o.split('|').map(s=>s.trim()).filter(Boolean);const c=parseInt(prompt(`رقم الإجابة الصحيحة (1 إلى ${options.length})`),10);if(!(c>=1&&c<=options.length))return toast('رقم غير صحيح');const {error}=await sb.from('quizzes').insert({lesson_id,question,options,correct:c-1});toast(error?error.message:'اتضاف السؤال')}
+async function tHW(){const [{data:h},{data:p},{data:l}]=await Promise.all([sb.from('homework').select('*').order('submitted_at',{ascending:false}),sb.from('profiles').select('id,full_name'),sb.from('lessons').select('id,title')]);
+ const pn=Object.fromEntries((p||[]).map(x=>[x.id,x.full_name])),ln=Object.fromEntries((l||[]).map(x=>[x.id,x.title]));
+ $('#tb').innerHTML=`<div class="card">${(h||[]).map(x=>`<div class="ann"><b>${esc(pn[x.student_id])}</b> · ${esc(ln[x.lesson_id])}<div style="white-space:pre-wrap">${esc(x.content)}</div><div style="font-size:12px;color:var(--muted)">${new Date(x.submitted_at).toLocaleString('ar-EG')}</div></div>`).join('')||'لسه مفيش واجبات.'}</div>`}
+async function tAnn(){const {data}=await sb.from('announcements').select('*').order('created_at',{ascending:false});
+ $('#tb').innerHTML=`<div class="card"><h3>إعلان جديد</h3><textarea id="an" rows="3"></textarea><button class="btn" style="margin-top:10px" onclick="addAnn()">نشر</button></div><div class="card" style="margin-top:16px">${(data||[]).map(a=>`<div class="ann">${esc(a.body)}</div>`).join('')}</div>`}
+async function addAnn(){const body=$('#an').value.trim();if(!body)return;const {error}=await sb.from('announcements').insert({body});if(error)toast(error.message);tAnn()}
+init();
+
 </script>
 </body>
 </html>

@@ -1,46 +1,216 @@
 <!doctype html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>منارة</title>
-<link rel="stylesheet" href="main.css">
-<style>html,body,#root{position:static!important;height:auto!important;overflow:visible!important;overflow-x:clip!important;overscroll-behavior:auto!important}html,body{margin:0;background:#fdfcfb}</style>
+<title>منصة الأستاذ أحمد منصور | رياضيات الثانوية العامة</title>
+<meta name="description" content="منصة تعليمية لمدرس: شرح مبسط، حصص مباشرة، واجبات واختبارات بتصحيح فوري ومتابعة تقدم الطالب.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f1f3d;--ink2:#1b3263;--accent:#e8a317;--accent-d:#b97f06;--bg:#f6f7fb;--card:#fff;--line:#e3e7f0;--muted:#5d6985;--ok:#14915c;--bad:#c93a3a;--r:16px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:1160px;margin:auto;padding:0 20px}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.logo i{width:38px;height:38px;border-radius:11px;background:var(--ink);color:var(--accent);display:grid;place-items:center;font-style:normal;font-size:22px}
+.nav nav{display:flex;gap:6px;margin-inline-start:auto}
+.nav nav a{padding:8px 14px;border-radius:10px;font-weight:600;color:var(--muted);font-size:15px}
+.nav nav a:hover,.nav nav a.on{background:var(--bg);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:11px 22px;font-weight:700;font-size:15px;background:var(--ink);color:#fff;transition:.15s}
+.btn:hover{background:var(--ink2);transform:translateY(-1px)}
+.btn.gold{background:var(--accent);color:#1d1400}.btn.gold:hover{background:#f2b52e}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}.btn.ghost:hover{border-color:var(--ink);background:#fff}
+.btn.sm{padding:7px 14px;font-size:14px;border-radius:10px}
+.hero{background:linear-gradient(135deg,var(--ink) 0%,#16295a 100%);color:#fff;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,rgba(232,163,23,.18),transparent 45%);}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:76px 20px;position:relative}
+.tag{display:inline-block;background:rgba(232,163,23,.16);color:#ffd27a;border:1px solid rgba(232,163,23,.4);padding:4px 14px;border-radius:99px;font-size:14px;font-weight:700}
+.hero h1{font-size:46px;line-height:1.3;margin:16px 0;font-weight:800}
+.hero h1 b{color:var(--accent)}
+.hero p{color:#c6d0ea;font-size:18px;max-width:540px}
+.cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.35)}.hero .btn.ghost:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.tcard{background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 30px 60px rgba(0,0,0,.3)}
+.avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#f6cf74);display:grid;place-items:center;font-size:42px;font-weight:800;color:var(--ink);margin-bottom:14px}
+.tcard h3{font-size:22px}.tcard .sub{color:var(--muted);font-size:15px}
+.tstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);text-align:center}
+.tstats b{display:block;font-size:24px;color:var(--ink)}.tstats span{font-size:13px;color:var(--muted)}
+section{padding:68px 0}
+.sh{margin-bottom:32px}.sh small{color:var(--accent-d);font-weight:800;font-size:14px}
+.sh h2{font-size:32px;font-weight:800;margin-top:2px}.sh p{color:var(--muted);max-width:620px}
+.grid{display:grid;gap:20px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.course{display:flex;flex-direction:column;padding:0;overflow:hidden;transition:.18s}
+.course:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,31,61,.1)}
+.cover{height:130px;display:grid;place-items:center;font-size:54px;color:rgba(255,255,255,.92)}
+.course .bd{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pill{display:inline-block;background:var(--bg);color:var(--ink2);font-size:13px;font-weight:700;padding:2px 12px;border-radius:99px}
+.meta{display:flex;gap:14px;color:var(--muted);font-size:14px;flex-wrap:wrap}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:9px;transition:width .4s}
+.feat .ic{width:48px;height:48px;border-radius:13px;background:#fff3d6;display:grid;place-items:center;font-size:24px;margin-bottom:12px}
+.feat h3{font-size:18px}.feat p{color:var(--muted);font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:13px 14px;text-align:right;border-bottom:1px solid var(--line)}th{color:var(--muted);font-size:13px;font-weight:700;background:#fafbfd}
+.live{color:var(--ok);font-weight:700}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:10px}
+.faq summary{font-weight:700;cursor:pointer}.faq p{color:var(--muted);margin-top:8px}
+footer{background:var(--ink);color:#aab6d3;padding:36px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+/* app pages */
+.page{padding:36px 0 70px}
+.crumbs{color:var(--muted);font-size:14px;margin-bottom:10px}.crumbs a{color:var(--ink2);font-weight:600}
+h1.pt{font-size:32px;font-weight:800;margin-bottom:6px}
+.layout{display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;margin-top:22px}
+.lessons{padding:8px}
+.les{display:flex;gap:12px;align-items:center;width:100%;text-align:right;background:none;border:0;padding:12px;border-radius:12px;font-size:15px;color:var(--ink)}
+.les:hover{background:var(--bg)}.les.on{background:#fff3d6}
+.les .n{width:30px;height:30px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.les.done .n{background:var(--ok);color:#fff}
+.player{aspect-ratio:16/8;background:linear-gradient(135deg,var(--ink),#26427f);border-radius:14px;display:grid;place-items:center;color:#fff;text-align:center;margin-bottom:20px}
+.player div{opacity:.9}.player b{font-size:44px;display:block}
+.prose h3{margin:14px 0 6px;font-size:19px}.prose p,.prose li{color:#33405e}.prose ul{padding-inline-start:22px}
+.eq{background:var(--bg);border-radius:10px;padding:10px 16px;margin:8px 0;font-family:'Cairo',serif;direction:ltr;text-align:center;font-size:18px}
+.q{margin-bottom:22px}.q h4{font-size:17px;margin-bottom:8px}
+.opt{display:block;border:1.5px solid var(--line);border-radius:11px;padding:10px 14px;margin-bottom:8px;cursor:pointer}
+.opt:hover{border-color:var(--ink2)}.opt input{margin-inline-end:10px}
+.opt.right{border-color:var(--ok);background:#e9f7f0}.opt.wrong{border-color:var(--bad);background:#fdeeee}
+.score{font-size:36px;font-weight:800}
+.kpi b{font-size:30px;display:block;line-height:1.2}.kpi span{color:var(--muted);font-size:14px}
+input[type=text],textarea,select{width:100%;font-family:inherit;font-size:15px;border:1.5px solid var(--line);border-radius:11px;padding:10px 14px;background:#fff;color:var(--ink)}
+label{display:block;font-weight:700;font-size:14px;margin:12px 0 5px}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 18px;font-weight:700;color:var(--muted)}.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.modal{position:fixed;inset:0;background:rgba(15,31,61,.55);display:none;place-items:center;z-index:50;padding:20px}.modal.show{display:grid}
+.modal .box{background:#fff;border-radius:20px;padding:28px;max-width:420px;width:100%}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 22px;border-radius:12px;z-index:60;display:none}
+.note{background:#fff8e6;border:1px solid #f3dd9c;border-radius:12px;padding:12px 16px;font-size:14px;color:#6b520a}
+.ann{border-inline-start:4px solid var(--accent);padding:6px 14px;margin-bottom:12px;background:#fff;border-radius:6px}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr;padding:48px 20px}.hero h1{font-size:34px}.g3,.g4{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1fr}.nav nav a:not(.keep){display:none}}
+@media(max-width:600px){.g3,.g2,.g4{grid-template-columns:1fr}.nav{gap:10px}.logo span{font-size:15px}section{padding:44px 0}.sh h2{font-size:26px}.tstats b{font-size:20px}table{font-size:14px}th,td{padding:10px 8px}}
+</style>
 </head>
 <body>
-<div id="root"></div>
+<header><div class="wrap nav">
+  <a class="logo" href="#/"><i>∑</i><span>أ. أحمد منصور</span></a>
+  <nav><a href="#/" data-r="home">الرئيسية</a><a href="#/courses" data-r="courses">الكورسات</a><a href="#/dashboard" data-r="dashboard" class="keep">مساري</a><a href="#/teacher" data-r="teacher">لوحة المدرس</a></nav>
+  <span id="who"></span>
+</div></header>
+<main id="app"></main>
+<footer><div class="wrap"><div>منصة الأستاذ أحمد منصور · نسخة تجريبية</div><div>البيانات المعروضة أمثلة. التقدم والنتائج محفوظة على جهازك فقط.</div></div></footer>
+<div class="modal" id="login"><div class="box">
+  <h2 style="font-size:24px">أهلًا بيك</h2><p style="color:var(--muted)">سجّل بياناتك عشان نحفظ تقدمك.</p>
+  <label>اسم الطالب</label><input type="text" id="lname" placeholder="مثال: يوسف محمد">
+  <label>الصف</label><select id="lgrade"><option>الصف الثاني الثانوي</option><option selected>الصف الثالث الثانوي</option></select>
+  <div style="display:flex;gap:10px;margin-top:20px"><button class="btn gold" style="flex:1" onclick="doLogin()">ابدأ</button><button class="btn ghost" onclick="closeLogin()">إلغاء</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
 <script>
-(function () {
-  var PREFIX = 'instinct-file:manara:';
-  function readLocal(key) {
-    try { var v = localStorage.getItem(PREFIX + key); return v == null ? { status: 'memory' } : { status: 'saved', value: v }; }
-    catch (e) { return { status: 'memory' }; }
-  }
-  function writeLocal(key, value) {
-    try { localStorage.setItem(PREFIX + key, value); return { status: 'saved' }; }
-    catch (e) { return { status: 'memory' }; }
-  }
-  window.instinctFile = {
-    initialRoute: decodeURIComponent(location.hash.slice(1) || '/'),
-    route: function (p) {
-      if (typeof p === 'string' && p.startsWith('/') && !p.startsWith('//')) {
-        var h = '#' + encodeURIComponent(p);
-        if (location.hash !== h) history.replaceState(null, '', h);
-      }
-    },
-    asset: function (u) { return u; },
-    request: function (method, params) {
-      if (method === 'local.read') return Promise.resolve(readLocal(params && params.key));
-      if (method === 'local.write') return Promise.resolve(writeLocal(params && params.key, params && params.value));
-      return Promise.resolve({ status: 'unavailable' });
-    },
-    live: { subscribe: function () { return function () {}; }, hold: function () {}, reveal: function () {} }
-  };
-  window.addEventListener('hashchange', function () {
-    window.dispatchEvent(new CustomEvent('instinct-route', { detail: decodeURIComponent(location.hash.slice(1) || '/') }));
-  });
-})();
+const COURSES=[
+{id:'alg',t:'الجبر والتفاضل',g:'الصف الثالث الثانوي',ic:'ƒ(x)',c:'linear-gradient(135deg,#1b3263,#3d63b8)',price:'٤٥٠ ج / الترم',desc:'من الدوال والنهايات حتى المشتقات وتطبيقاتها، بحلول مفصلة وأسئلة امتحانات.',
+ lessons:[
+ {t:'مفهوم الدالة والمجال',d:'12 دقيقة',h:'<p>الدالة قاعدة تربط كل عنصر من المجال بعنصر واحد فقط من المدى.</p><div class="eq">f(x) = √(x − 2)</div><p>المجال هنا كل قيم x التي تجعل ما تحت الجذر غير سالب.</p><ul><li>اشترط x − 2 ≥ 0</li><li>إذن المجال: [2 , ∞)</li></ul>'},
+ {t:'النهايات وخواصها',d:'15 دقيقة',h:'<p>النهاية هي القيمة التي تقترب منها الدالة عندما تقترب x من نقطة معينة.</p><div class="eq">lim (x²−4)/(x−2) = 4 , x→2</div><p>نحلل البسط (x−2)(x+2) ثم نختصر ونعوض.</p>'},
+ {t:'قواعد الاشتقاق',d:'18 دقيقة',h:'<p>أهم قواعد المشتقات الأساسية:</p><div class="eq">d/dx (xⁿ) = n·xⁿ⁻¹</div><div class="eq">d/dx (sin x) = cos x</div><p>مثال: مشتقة 3x⁴ هي 12x³.</p>'},
+ {t:'تطبيقات: القيم العظمى والصغرى',d:'20 دقيقة',h:'<p>نساوي المشتقة الأولى بالصفر لإيجاد النقاط الحرجة، ثم نفحص إشارة المشتقة الثانية.</p><div class="eq">f″(x) &gt; 0 ⇒ قيمة صغرى</div>'}],
+ quiz:[
+ {q:'ما مجال الدالة f(x) = √(x − 2) ؟',o:['(−∞ , 2]','[2 , ∞)','ℝ','(2 , ∞)'],a:1},
+ {q:'مشتقة الدالة 3x⁴ تساوي:',o:['12x³','3x³','12x⁴','4x³'],a:0},
+ {q:'إذا كانت f″(x) > 0 عند نقطة حرجة فهي:',o:['قيمة عظمى','نقطة انعطاف','قيمة صغرى','لا يمكن تحديدها'],a:2}]},
+{id:'geo',t:'الهندسة وحساب المثلثات',g:'الصف الثاني الثانوي',ic:'△',c:'linear-gradient(135deg,#7a4b0b,#d9971b)',price:'٣٥٠ ج / الترم',desc:'قوانين المثلثات والدوائر والتحويلات بشرح مرئي وتدريبات تدريجية.',
+ lessons:[
+ {t:'النسب المثلثية الأساسية',d:'14 دقيقة',h:'<p>في المثلث القائم:</p><div class="eq">sin θ = المقابل / الوتر</div><div class="eq">cos θ = المجاور / الوتر</div><div class="eq">tan θ = المقابل / المجاور</div>'},
+ {t:'قانونا الجيب وجيب التمام',d:'17 دقيقة',h:'<p>قانون الجيب لأي مثلث:</p><div class="eq">a / sin A = b / sin B = c / sin C</div>'},
+ {t:'الدائرة والزوايا',d:'16 دقيقة',h:'<p>الزاوية المحيطية تساوي نصف الزاوية المركزية المشتركة معها في نفس القوس.</p>'},
+ {t:'مراجعة وحل نماذج',d:'25 دقيقة',h:'<p>نحل معًا نموذجًا كاملًا بنظام الامتحان وتوزيع الدرجات.</p>'}],
+ quiz:[
+ {q:'في مثلث قائم، sin θ يساوي:',o:['المجاور / الوتر','المقابل / الوتر','المقابل / المجاور','الوتر / المقابل'],a:1},
+ {q:'قيمة sin 30° تساوي:',o:['1','√3/2','1/2','0'],a:2},
+ {q:'الزاوية المحيطية تساوي ..... الزاوية المركزية المشتركة معها في القوس:',o:['ضعف','نصف','ثلث','مثل'],a:1}]},
+{id:'rev',t:'المراجعة النهائية',g:'الصف الثالث الثانوي',ic:'✓',c:'linear-gradient(135deg,#0f6b4a,#35b17f)',price:'٣٠٠ ج',desc:'مراجعة مركزة على أهم الأفكار مع نماذج امتحانات وأخطاء شائعة.',
+ lessons:[
+ {t:'أهم القوانين في صفحة واحدة',d:'10 دقائق',h:'<p>ملخص القوانين الأساسية للمنهج مع أمثلة سريعة على كل قانون.</p>'},
+ {t:'الأخطاء الشائعة في الامتحان',d:'12 دقيقة',h:'<ul><li>نسيان فحص المجال</li><li>الخطأ في إشارة المشتقة الثانية</li><li>عدم كتابة الوحدة في المسائل التطبيقية</li></ul>'},
+ {t:'نموذج امتحان كامل',d:'30 دقيقة',h:'<p>حل نموذج بزمن حقيقي مع شرح استراتيجية توزيع الوقت.</p>'}],
+ quiz:[
+ {q:'قبل حل أي مسألة دالة، أول خطوة هي:',o:['التعويض مباشرة','تحديد المجال','الرسم فقط','الحذف'],a:1},
+ {q:'مشتقة x² تساوي:',o:['x','2x','x²','2'],a:1}]}
+];
+const SCHEDULE=[['السبت','٦:٠٠ م','الثالث الثانوي','الجبر والتفاضل'],['الأحد','٥:٠٠ م','الثاني الثانوي','حساب المثلثات'],['الثلاثاء','٦:٠٠ م','الثالث الثانوي','حل نماذج'],['الخميس','٤:٠٠ م','الصفين','مراجعة وأسئلة الطلاب']];
+const DEMO_STUDENTS=[['سارة أحمد','الثالث الثانوي',82,5],['محمود علي','الثالث الثانوي',74,4],['ملك حسن','الثاني الثانوي',91,6],['عمر خالد','الثاني الثانوي',65,2],['نور إبراهيم','الثالث الثانوي',88,5]];
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{return JSON.parse(localStorage.getItem('mt:'+k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem('mt:'+k,JSON.stringify(v))}catch(e){}}};
+let user=store.get('user',null),prog=store.get('prog',{}),scores=store.get('scores',{}),anns=store.get('anns',[{t:'بدء حصص الترم الجديد يوم السبت، الرجاء مراجعة الدرس الأول.',d:'اليوم'}]),extra=store.get('extra',{}),subs=store.get('subs',[]);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2200)};
+const all=c=>[...c.lessons,...(extra[c.id]||[])];
+const pct=c=>{const L=all(c);return Math.round(100*L.filter((_,i)=>prog[c.id+':'+i]).length/L.length)};
+function needLogin(next){if(user)return false;window._next=next;$('#login').classList.add('show');return true}
+function closeLogin(){$('#login').classList.remove('show')}
+function doLogin(){const n=$('#lname').value.trim();if(!n){toast('اكتب اسمك أولًا');return}user={n,g:$('#lgrade').value};store.set('user',user);closeLogin();renderWho();toast('أهلًا '+n);if(window._next)location.hash=window._next;route()}
+function logout(){user=null;localStorage.removeItem('mt:user');renderWho();location.hash='#/'}
+function renderWho(){$('#who').innerHTML=user?`<span style="font-weight:700;font-size:14px">${user.n}</span> <button class="btn ghost sm" onclick="logout()">خروج</button>`:`<button class="btn sm gold" onclick="$('#login').classList.add('show')">تسجيل الدخول</button>`}
+const courseCard=c=>`<a class="card course" href="#/course/${c.id}"><div class="cover" style="background:${c.c}">${c.ic}</div><div class="bd"><span class="pill">${c.g}</span><h3>${c.t}</h3><p style="color:var(--muted);font-size:15px">${c.desc}</p><div class="meta"><span>${all(c).length} دروس</span><span>${c.price}</span></div>${user?`<div class="bar"><i style="width:${pct(c)}%"></i></div>`:''}</div></a>`;
+const V={
+home(){return `
+<div class="hero"><div class="wrap"><div><span class="tag">رياضيات الثانوية العامة</span>
+<h1>رياضيات أوضح مع <b>أ. أحمد منصور</b>، ومتابعة لكل طالب</h1>
+<p>شرح مبسط خطوة بخطوة، حصص مباشرة أسبوعية، واجبات واختبارات بتصحيح فوري، وتقرير بتقدمك طول الترم.</p>
+<div class="cta"><a class="btn gold" href="#/courses">تصفح الكورسات</a><a class="btn ghost" href="#/dashboard">ادخل لمسارك</a></div></div>
+<div class="tcard"><div class="avatar">أ</div><h3>أ. أحمد منصور</h3><div class="sub">مدرس رياضيات · المرحلة الثانوية</div>
+<div class="tstats"><div><b>١٢</b><span>سنة خبرة</span></div><div><b>٣</b><span>كورسات</span></div><div><b>١٠+</b><span>حصة شهريًا</span></div></div></div></div></div>
+<section><div class="wrap"><div class="sh"><small>كل اللي يحتاجه الطالب</small><h2>تجربة تعلم منظمة من أول درس لآخر امتحان</h2></div>
+<div class="grid g4">
+${[['▶','دروس مسجلة','شرح كل درس مع ملخص مكتوب تقدر ترجع له في أي وقت.'],['✎','اختبارات فورية','أسئلة بعد كل كورس بتصحيح لحظي وإظهار الإجابة الصحيحة.'],['⇧','واجبات','سلّم واجبك من المنصة والمدرس يتابعه من لوحته.'],['▤','متابعة التقدم','نسبة إنجاز ونتائج الاختبارات في صفحة واحدة.']].map(f=>`<div class="card feat"><div class="ic">${f[0]}</div><h3>${f[1]}</h3><p>${f[2]}</p></div>`).join('')}</div></div></section>
+<section style="background:#fff;border-block:1px solid var(--line)"><div class="wrap"><div class="sh"><small>الكورسات</small><h2>اختار كورس صفك</h2></div><div class="grid g3">${COURSES.map(courseCard).join('')}</div></div></section>
+<section><div class="wrap"><div class="sh"><small>جدول الحصص</small><h2>الحصص المباشرة هذا الأسبوع</h2><p>جدول تجريبي. المدرس يعدله من لوحته.</p></div>
+<div class="card" style="padding:0;overflow:auto"><table><tr><th>اليوم</th><th>الميعاد</th><th>الصف</th><th>الموضوع</th></tr>${SCHEDULE.map(r=>`<tr><td><b>${r[0]}</b></td><td class="live">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</table></div></div></section>
+<section style="padding-top:0"><div class="wrap faq"><div class="sh"><small>أسئلة شائعة</small><h2>قبل ما تبدأ</h2></div>
+<details><summary>إزاي أشترك في كورس؟</summary><p>سجّل اسمك واختار الكورس. في النسخة الحقيقية هيتم الدفع والتفعيل من المدرس.</p></details>
+<details><summary>هل أقدر أراجع الدرس أكتر من مرة؟</summary><p>أيوه، الدروس والملخصات متاحة طول مدة الكورس.</p></details>
+<details><summary>إزاي أعرف مستواي؟</summary><p>من صفحة مساري هتلاقي نسبة إنجازك ودرجات اختباراتك.</p></details></div></section>`},
+courses(){return `<div class="page wrap"><h1 class="pt">الكورسات</h1><p style="color:var(--muted)">اختار الصف المناسب لك.</p><div class="tabs" id="tabs"></div><div class="grid g3" id="cl"></div></div>`},
+course(id){const c=COURSES.find(x=>x.id===id);if(!c)return '<div class="page wrap">الكورس غير موجود</div>';const L=all(c);const i=window._les??0;const l=L[Math.min(i,L.length-1)];
+return `<div class="page wrap"><div class="crumbs"><a href="#/courses">الكورسات</a> / ${c.t}</div><h1 class="pt">${c.t}</h1><span class="pill">${c.g}</span>
+<div class="layout"><aside class="card lessons"><div style="padding:10px 12px"><b>${pct(c)}% مكتمل</b><div class="bar" style="margin-top:6px"><i style="width:${pct(c)}%"></i></div></div>
+${L.map((x,k)=>`<button class="les ${k==i?'on':''} ${prog[c.id+':'+k]?'done':''}" onclick="openLes('${c.id}',${k})"><span class="n">${prog[c.id+':'+k]?'✓':k+1}</span><span><b style="display:block">${x.t}</b><small style="color:var(--muted)">${x.d||''}</small></span></button>`).join('')}
+<button class="les ${i==='quiz'?'on':''}" onclick="openLes('${c.id}','quiz')"><span class="n">؟</span><b>اختبار الكورس</b></button></aside>
+<div class="card" id="lbody">${i==='quiz'?quizHTML(c):`<div class="player"><div><b>▶</b>فيديو الدرس: ${l.t}</div></div><div class="prose"><h3>${l.t}</h3>${l.h||'<p>محتوى الدرس.</p>'}</div><div style="margin-top:20px;display:flex;gap:10px"><button class="btn gold" onclick="markDone('${c.id}',${i})">${prog[c.id+':'+i]?'✓ تم الإنجاز':'تم الدرس'}</button>${i<L.length-1?`<button class="btn ghost" onclick="openLes('${c.id}',${i+1})">الدرس التالي</button>`:`<button class="btn ghost" onclick="openLes('${c.id}','quiz')">ابدأ الاختبار</button>`}</div>`}</div></div></div>`},
+dashboard(){if(!user)return '<div class="page wrap"><div class="card" style="text-align:center;padding:50px"><h2>سجّل دخولك لمتابعة تقدمك</h2><p style="color:var(--muted);margin:8px 0 18px">بياناتك محفوظة على جهازك.</p><button class="btn gold" onclick="needLogin(\'#/dashboard\')">تسجيل الدخول</button></div></div>';
+const done=Object.values(prog).filter(Boolean).length;const sc=Object.values(scores);const avg=sc.length?Math.round(sc.reduce((a,b)=>a+b,0)/sc.length):0;
+return `<div class="page wrap"><h1 class="pt">أهلًا ${user.n}</h1><p style="color:var(--muted)">${user.g}</p>
+<div class="grid g4" style="margin:22px 0"><div class="card kpi"><b>${done}</b><span>درس مكتمل</span></div><div class="card kpi"><b>${sc.length}</b><span>اختبار تم حله</span></div><div class="card kpi"><b>${sc.length?avg+'%':'—'}</b><span>متوسط الدرجات</span></div><div class="card kpi"><b>${subs.length}</b><span>واجب مُسلَّم</span></div></div>
+<div class="grid g2"><div class="card"><h3 style="margin-bottom:14px">تقدمك في الكورسات</h3>${COURSES.map(c=>`<a href="#/course/${c.id}" style="display:block;margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-weight:700"><span>${c.t}</span><span>${pct(c)}%</span></div><div class="bar" style="margin-top:6px"><i style="width:${pct(c)}%"></i></div>${scores[c.id]!=null?`<small style="color:var(--muted)">آخر اختبار: ${scores[c.id]}%</small>`:''}</a>`).join('')}</div>
+<div class="card"><h3>تسليم واجب</h3><label>الكورس</label><select id="hc">${COURSES.map(c=>`<option>${c.t}</option>`).join('')}</select><label>ملاحظة أو إجابة</label><textarea id="ht" rows="4" placeholder="اكتب حلك أو ملاحظتك للمدرس"></textarea><button class="btn gold" style="margin-top:14px" onclick="sendHW()">تسليم</button>
+<div style="margin-top:18px">${subs.slice(-3).reverse().map(s=>`<div class="ann"><b>${s.c}</b><br><small style="color:var(--muted)">تم التسليم · ${s.t||'بدون نص'}</small></div>`).join('')}</div></div></div>
+<h3 style="margin:28px 0 12px">إعلانات المدرس</h3>${anns.map(a=>`<div class="ann">${a.t}<br><small style="color:var(--muted)">${a.d}</small></div>`).join('')}</div>`},
+teacher(){const mine=user?[[user.n,user.g.replace('الصف ',''),scores.alg??scores.geo??scores.rev??'—',Object.values(prog).filter(Boolean).length]]:[];
+const rows=[...mine,...DEMO_STUDENTS];
+return `<div class="page wrap"><h1 class="pt">لوحة المدرس</h1><div class="note" style="margin:10px 0 22px">واجهة تجريبية لعرض ما يراه المدرس. في النسخة الحقيقية تكون محمية بحساب خاص.</div>
+<div class="grid g4" style="margin-bottom:22px"><div class="card kpi"><b>${rows.length}</b><span>طالب</span></div><div class="card kpi"><b>${COURSES.length}</b><span>كورسات</span></div><div class="card kpi"><b>${subs.length}</b><span>واجبات مستلمة</span></div><div class="card kpi"><b>${Math.round(DEMO_STUDENTS.reduce((a,b)=>a+b[2],0)/DEMO_STUDENTS.length)}%</b><span>متوسط درجات الطلاب</span></div></div>
+<div class="grid g2" style="align-items:start"><div class="card" style="padding:0;overflow:auto"><table><tr><th>الطالب</th><th>الصف</th><th>الدرجة</th><th>دروس</th></tr>${rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}${typeof r[2]=='number'?'%':''}</td><td>${r[3]}</td></tr>`).join('')}</table></div>
+<div class="card"><h3>إعلان جديد للطلاب</h3><textarea id="an" rows="3" placeholder="اكتب الإعلان"></textarea><button class="btn gold sm" style="margin-top:10px" onclick="addAnn()">نشر</button>
+<h3 style="margin-top:24px">إضافة درس</h3><label>الكورس</label><select id="ac">${COURSES.map(c=>`<option value="${c.id}">${c.t}</option>`).join('')}</select><label>عنوان الدرس</label><input type="text" id="at"><button class="btn sm" style="margin-top:10px" onclick="addLesson()">إضافة</button></div></div>
+${subs.length?`<h3 style="margin:26px 0 10px">الواجبات المستلمة</h3>${subs.map(s=>`<div class="ann"><b>${s.n}</b> · ${s.c}<br>${s.t||''}</div>`).join('')}`:''}</div>`}
+};
+function quizHTML(c){return `<h3>اختبار: ${c.t}</h3><p style="color:var(--muted);margin-bottom:18px">${c.quiz.length} أسئلة · التصحيح فوري</p><form id="qf">${c.quiz.map((q,i)=>`<div class="q"><h4>${i+1}. ${q.q}</h4>${q.o.map((o,k)=>`<label class="opt" style="font-weight:600;font-size:15px;margin:0 0 8px"><input type="radio" name="q${i}" value="${k}">${o}</label>`).join('')}</div>`).join('')}<button type="button" class="btn gold" onclick="grade('${c.id}')">تصحيح</button></form><div id="res"></div>`}
+function openLes(id,i){if(needLogin('#/course/'+id)){window._les=i;return}window._les=i;route()}
+function markDone(id,i){if(needLogin('#/course/'+id))return;prog[id+':'+i]=true;store.set('prog',prog);route();toast('تم حفظ تقدمك')}
+function grade(id){const c=COURSES.find(x=>x.id===id);let r=0;const f=$('#qf');c.quiz.forEach((q,i)=>{const sel=f.querySelector(`input[name=q${i}]:checked`);f.querySelectorAll(`input[name=q${i}]`).forEach(inp=>{const lab=inp.parentElement;if(+inp.value===q.a)lab.classList.add('right');else if(inp.checked)lab.classList.add('wrong');inp.disabled=true});if(sel&&+sel.value===q.a)r++});
+const p=Math.round(100*r/c.quiz.length);scores[id]=p;store.set('scores',scores);$('#res').innerHTML=`<div class="card" style="margin-top:12px;text-align:center"><div class="score" style="color:${p>=60?'var(--ok)':'var(--bad)'}">${r} / ${c.quiz.length}</div><p>${p>=60?'ممتاز، كمل على نفس المستوى':'راجع الدروس وجرب تاني'}</p><button class="btn ghost sm" onclick="window._les='quiz';route()">إعادة المحاولة</button></div>`}
+function sendHW(){const t=$('#ht').value.trim();subs.push({n:user.n,c:$('#hc').value,t});store.set('subs',subs);route();toast('تم تسليم الواجب')}
+function addAnn(){const t=$('#an').value.trim();if(!t)return;anns.unshift({t,d:'الآن'});store.set('anns',anns);route();toast('تم نشر الإعلان')}
+function addLesson(){const t=$('#at').value.trim();if(!t)return;const c=$('#ac').value;(extra[c]=extra[c]||[]).push({t,d:'جديد',h:'<p>تمت إضافة الدرس من لوحة المدرس. أضف المحتوى لاحقًا.</p>'});store.set('extra',extra);route();toast('تمت إضافة الدرس')}
+function route(){const h=location.hash.slice(1)||'/';const [,p,a]=h.split('/');const r=p||'home';
+if(r!=='course')window._les=undefined;
+$('#app').innerHTML=r==='course'?V.course(a):(V[r]||V.home)();
+document.querySelectorAll('.nav nav a').forEach(x=>x.classList.toggle('on',x.dataset.r===r||(r==='course'&&x.dataset.r==='courses')));
+if(r==='courses'){let g='الكل';const draw=()=>{const gs=['الكل',...new Set(COURSES.map(c=>c.g))];$('#tabs').innerHTML=gs.map(x=>`<button class="${x===g?'on':''}" data-g="${x}">${x}</button>`).join('');$('#cl').innerHTML=COURSES.filter(c=>g==='الكل'||c.g===g).map(courseCard).join('');$('#tabs').onclick=e=>{if(e.target.dataset.g){g=e.target.dataset.g;draw()}}};draw()}
+if(r!=='course')window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);renderWho();route();
 </script>
-<script src="main.js" defer></script>
 </body>
 </html>

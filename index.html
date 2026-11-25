@@ -284,7 +284,7 @@ details{transition:box-shadow .3s}details[open]{box-shadow:0 10px 26px rgba(20,3
 .lcar .ls.on{animation:mUp2 .6s cubic-bezier(.2,.8,.2,1) both}
 .modal.show .box{animation:mPop .5s cubic-bezier(.2,.9,.25,1.15) both}
 #catalog.grid{grid-template-columns:repeat(3,1fr);gap:20px}
-#catalog .course .cover{height:auto;aspect-ratio:7/3}
+#catalog .course .cover{height:auto!important;aspect-ratio:7/3}
 #catalog .course .cover img{transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .4s}
 #catalog .course .cover:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,38,79,.55),transparent 60%);opacity:0;transition:opacity .4s}
 #catalog .course .bd{padding:14px 15px 15px;gap:5px}
@@ -413,7 +413,7 @@ const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEac
 let t=0;const fx=()=>{app.querySelectorAll(SEL).forEach(el=>{if(el.dataset.fx||el.closest('.lcar,.ccar,.modal')||(el.parentElement&&el.parentElement.closest('.rv')))return;el.dataset.fx='1';el.dataset.fxi=[...el.parentElement.children].indexOf(el);el.classList.add('rv');if(io)io.observe(el);else show(el)})};
 new MutationObserver(()=>{clearTimeout(t);t=setTimeout(fx,30)}).observe(app,{childList:true,subtree:true});fx()})()}catch(e){console.warn('fx',e)}
 
-const BUILD='b46-2026-11-26';(async()=>{try{const t=await(await fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'})).text();const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD&&!sessionStorage.getItem('rl')){sessionStorage.setItem('rl','1');location.replace(location.pathname+'?v='+Date.now()+location.hash)}}catch(e){}})();
+const BUILD='b47-2026-11-26';(async()=>{try{const t=await(await fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'})).text();const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD&&!sessionStorage.getItem('rl')){sessionStorage.setItem('rl','1');location.replace(location.pathname+'?v='+Date.now()+location.hash)}}catch(e){}})();
 (function(){const h=document.documentElement;const paint=d=>{h.dataset.theme=d?'dark':'light';const b=document.getElementById('thm');if(b){const t=d?'الوضع الفاتح':'الوضع الداكن';b.innerHTML='<i>'+(d?'☀️':'🌙')+'</i>';b.title=t;b.setAttribute('aria-label',t)}};
  const mk=()=>{const n=document.querySelector('header .nav');if(!n||document.getElementById('thm'))return;const b=document.createElement('button');b.id='thm';b.type='button';b.className='thm';b.onclick=()=>{const d=h.dataset.theme!=='dark';paint(d);try{localStorage.setItem('thm',d?'dark':'light')}catch(e){}};n.appendChild(b);paint(h.dataset.theme==='dark')};
  if(document.readyState!=='loading')mk();else addEventListener('DOMContentLoaded',mk);setTimeout(mk,800)})();

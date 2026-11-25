@@ -135,10 +135,10 @@ ${m==='up'?`<label>الاسم بالكامل</label><input id="a_name" autocompl
 ${m==='up'?'<p class="note" style="margin-top:10px">حسابك بيتفعّل بعد موافقة المدرس.</p>':''}`}
 async function doAuth(){const m=$('#authbox').dataset.mode,email=$('#a_email').value.trim(),password=$('#a_pass').value,err=$('#a_err');err.textContent='';
  let r;if(m==='up'){const full_name=$('#a_name').value.trim();if(!full_name){err.textContent='اكتب اسمك';return}
-  r=await sb.auth.signUp({email,password,options:{data:{full_name,grade:$('#a_grade').value}}})}
+  r=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname,data:{full_name,grade:$('#a_grade').value}}})}
  else r=await sb.auth.signInWithPassword({email,password});
- if(r.error){err.textContent=({'Invalid login credentials':'البريد أو كلمة السر غلط','User already registered':'الحساب ده موجود، سجّل دخول'})[r.error.message]||r.error.message;return}
- if(!r.data.session){err.textContent='تعذر تسجيل الدخول بعد إنشاء الحساب، جرّب الدخول.';return}
+ if(r.error){err.textContent=({'Invalid login credentials':'البريد أو كلمة السر غلط','User already registered':'الحساب ده موجود، سجّل دخول','Email not confirmed':'لازم تأكد بريدك الأول من الرسالة اللي وصلتلك'})[r.error.message]||r.error.message;return}
+ if(!r.data.session){$('#authbox').innerHTML='<h3>اتبعت رابط التأكيد</h3><p style="margin:12px 0">بعتنالك رسالة على بريدك. افتحها واضغط رابط التأكيد، وبعدها سجّل دخول. وبعد كده المدرس هيفعّل حسابك.</p><button class="btn" onclick="openAuth(\'in\')">تسجيل الدخول</button>';return}
  $('#auth').classList.remove('show');await init();location.hash=PROF?.role==='teacher'?'#/teacher':'#/me'}
 function route(){const h=location.hash||'#/';const [,p,a,b]=h.split('/');
  const go=({'':home,me:student,teacher:teacher,course:()=>course(a),lesson:()=>lesson(a)})[p||''];(go||home)();window.scrollTo(0,0)}

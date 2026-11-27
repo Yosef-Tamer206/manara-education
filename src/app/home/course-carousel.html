@@ -16,8 +16,8 @@
         } @else {
           <p style="font-size:14px;color:var(--muted)">الدروس جاية قريب.</p>
         }
-        @if (price(c.grade)) {
-          <div class="cprice"><b>{{ price(c.grade) }} ج.م</b> / شهر <a href="test-payment.html">سعر تجريبي</a></div>
+        @if (price()) {
+          <div class="cprice"><b>{{ price() }} ج.م</b> / شهر</div>
         }
         <div style="margin-top:auto;padding-top:10px">
           @if (session.profile(); as p) {

@@ -1,0 +1,41 @@
+<div class="bot">
+  <div class="bot-log">
+    @for (b of bubbles(); track $index) {
+      <div class="bub" [class.me]="b.from === 'me'" [class.ok]="b.tone === 'ok'" [class.bad]="b.tone === 'bad'">{{ b.text }}</div>
+    }
+  </div>
+
+  <div class="bot-in">
+    @switch (step()) {
+      @case ('plan') {
+        @if (readyPlans().month) { <button class="btn gold" (click)="choosePlan('month')">اشتراك شهر · {{ subs.priceMonth() }} جنيه</button> }
+        @if (readyPlans().lesson) { <button class="btn ghost" (click)="choosePlan('lesson')">حصة واحدة · {{ subs.priceLesson() }} جنيه</button> }
+      }
+      @case ('lesson') {
+        <select [value]="pickedLesson()" (change)="pickedLesson.set($any($event.target).value)">
+          <option value="">اختار الدرس</option>
+          @for (c of courses(); track c) {
+            <optgroup [label]="c">
+              @for (l of inCourse(c); track l.lesson_id) { <option [value]="l.lesson_id">{{ l.title }}</option> }
+            </optgroup>
+          }
+        </select>
+        <button class="btn gold" [disabled]="!pickedLesson()" (click)="chooseLesson()">التالي</button>
+      }
+      @case ('reference') {
+        <input type="text" placeholder="رقم العملية" maxlength="40" [value]="reference()" (input)="reference.set($any($event.target).value)" (keydown.enter)="sendReference()">
+        <button class="btn gold" [disabled]="!reference().trim()" (click)="sendReference()">إرسال</button>
+      }
+      @case ('receipt') {
+        <label class="btn gold">رفع صورة الإيصال<input type="file" accept="image/*" hidden (change)="pickFile($event)"></label>
+      }
+      @case ('review') {
+        <button class="btn gold" (click)="submit()">تأكيد وإرسال</button>
+        <button class="btn ghost" (click)="start()">ابدأ من جديد</button>
+      }
+      @case ('done') {
+        <button class="btn ghost" (click)="start()">طلب جديد</button>
+      }
+    }
+  </div>
+</div>

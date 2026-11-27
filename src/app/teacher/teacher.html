@@ -8,6 +8,7 @@
         <div><b>{{ s.courses }}</b><span>كورس</span></div>
         <div><b>{{ s.lessons }}</b><span>درس</span></div>
         <div><b>{{ s.homework }}</b><span>واجب</span></div>
+        <div [class.hot]="s.awaiting > 0"><b>{{ s.awaiting }}</b><span>اشتراك مستني تأكيدك</span></div>
       }
     </div>
     <div class="tabs">
@@ -18,6 +19,7 @@
     <div id="tb">
       @switch (tab()) {
         @case ('students') { <app-students-tab (changed)="loadStats()" /> }
+        @case ('subs') { <app-subscriptions-tab (changed)="loadStats()" /> }
         @case ('courses') { <app-courses-tab /> }
         @case ('hw') { <app-homework-tab /> }
         @case ('ann') { <app-announcements-tab /> }

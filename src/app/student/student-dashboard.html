@@ -17,6 +17,8 @@
         </div>
       </div>
 
+      <div style="margin-top:18px"><app-subscription-status /></div>
+
       @if (announcements().length) {
         <h3 style="margin:22px 0 10px">إعلانات المدرس</h3>
         @for (a of announcements(); track a.id) {

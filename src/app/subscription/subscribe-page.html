@@ -1,0 +1,38 @@
+@if (session.profile(); as p) {
+  @if (p.role !== 'student') {
+    <div class="page wrap"><div class="note">الصفحة دي للطلاب. <a routerLink="/teacher">لوحة المدرس</a></div></div>
+  } @else if (!p.approved) {
+    <div class="page wrap"><div class="note">حسابك لسه مستني موافقة المدرس. بعد التفعيل تقدر تشترك من هنا.</div></div>
+  } @else {
+    <div class="page wrap">
+      <div class="crumbs"><a routerLink="/me">منصتي</a> / الاشتراك</div>
+      <h1 class="pt">الاشتراك</h1>
+      <app-subscription-status />
+      <div class="card" style="margin-top:18px">
+        <app-subscription-bot [lessonId]="lessonId()" />
+      </div>
+
+      <h3 style="margin:26px 0 10px">طلباتك</h3>
+      <div class="card">
+        @if (subs.items().length) {
+          <table>
+            <tr><th>التاريخ</th><th>الخطة</th><th>المبلغ</th><th>الحالة</th><th>ينتهي</th></tr>
+            @for (s of subs.items(); track s.id) {
+              <tr>
+                <td>{{ arDate(s.created_at) }}</td>
+                <td>{{ planName(s) }}</td>
+                <td>{{ s.amount }}</td>
+                <td [class.live]="s.live">{{ state(s) }}</td>
+                <td>{{ s.live && s.effective_end ? arDate(s.effective_end) : '-' }}</td>
+              </tr>
+            }
+          </table>
+        } @else {
+          لسه مفيش طلبات.
+        }
+      </div>
+    </div>
+  }
+} @else {
+  <div class="page wrap"><p>سجّل دخول الأول.</p></div>
+}

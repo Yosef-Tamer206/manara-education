@@ -1,0 +1,22 @@
+@if (subs.loaded()) {
+  <div class="card sstat" [class.warn]="subs.daysLeft() !== null && subs.daysLeft()! <= 3">
+    @if (subs.month(); as m) {
+      <div>
+        <b>اشتراكك الشهري شغال</b>
+        <span>ينتهي {{ arDate(m.effective_end!) }}
+          @if (subs.daysLeft() !== null && subs.daysLeft()! <= 3) { · فاضل {{ subs.daysLeft() }} يوم }
+        </span>
+      </div>
+      @if (subs.daysLeft() !== null && subs.daysLeft()! <= 3) { <a class="btn gold sm" routerLink="/subscribe">جدّد</a> }
+    } @else {
+      <div>
+        <b>مفيش اشتراك شهري شغال</b>
+        <span>الدروس مقفولة لحد ما تشترك.@if (subs.lessons().length) { عندك {{ subs.lessons().length }} حصة مفتوحة. }</span>
+      </div>
+      <a class="btn gold sm" routerLink="/subscribe">اشترك</a>
+    }
+  </div>
+  @if (subs.awaitingConfirm().length) {
+    <div class="note">المدرس لسه ما أكدش استلام تحويل ({{ subs.awaitingConfirm().length }}). الوصول بيفضل شغال لفترة التأكيد المحددة.</div>
+  }
+}

@@ -42,6 +42,9 @@ export class LessonPage {
   protected quizLocked = signal(false);
 
   private id = '';
+  protected get lessonId() {
+    return this.id;
+  }
 
   constructor() {
     this.route.paramMap.subscribe((m) => {

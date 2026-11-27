@@ -5,10 +5,11 @@ import { arDate, percent } from '../core/format';
 import { Announcement, Course, QuizResult } from '../core/models';
 import { SessionService } from '../core/session.service';
 import { SupabaseService } from '../core/supabase.service';
+import { SubscriptionStatus } from '../subscription/subscription-status';
 
 @Component({
   selector: 'app-student-dashboard',
-  imports: [RouterLink],
+  imports: [RouterLink, SubscriptionStatus],
   templateUrl: './student-dashboard.html',
 })
 export class StudentDashboard {
@@ -59,13 +60,13 @@ export class StudentDashboard {
     this.loading.set(true);
     const [cs, ls, pr, an, qr] = await Promise.all([
       this.sb.from('courses').select('*').eq('published', true).eq('grade', grade),
-      this.sb.from('lessons').select('id,course_id'),
+      this.sb.rpc('lesson_catalog'),
       this.sb.from('progress').select('lesson_id'),
       this.sb.from('announcements').select('*').order('created_at', { ascending: false }).limit(5),
       this.sb.from('quiz_results').select('*').order('taken_at', { ascending: false }),
     ]);
     this.courses.set((cs.data as Course[]) || []);
-    this.lessons.set(ls.data || []);
+    this.lessons.set((ls.data || []).map((l: { lesson_id: string; course_id: string }) => ({ id: l.lesson_id, course_id: l.course_id })));
     this.done.set(new Set((pr.data || []).map((x: { lesson_id: string }) => x.lesson_id)));
     this.announcements.set((an.data as Announcement[]) || []);
     this.results.set((qr.data as QuizResult[]) || []);

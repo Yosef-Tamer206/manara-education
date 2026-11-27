@@ -51,5 +51,5 @@
     </div>
   </div>
 } @else {
-  <div class="page wrap"><div class="note">الدرس ده مش متاح أو اتمسح. <a routerLink="/me">رجوع لمنصتي</a></div></div>
+  <div class="page wrap"><div class="note">الدرس ده مقفول أو مش متاح. لو لسه مشتركتش <a routerLink="/subscribe" [queryParams]="{ lesson: lessonId }">اشترك من هنا</a>، أو <a routerLink="/me">ارجع لمنصتي</a>.</div></div>
 }

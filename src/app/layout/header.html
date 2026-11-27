@@ -4,6 +4,7 @@
     <nav id="nav">
       @if (session.profile(); as p) {
         <a [routerLink]="session.homeLink()" class="keep">{{ p.role === 'teacher' ? 'لوحة المدرس' : 'منصتي' }}</a>
+        @if (p.role === 'student') { <a routerLink="/subscribe" class="keep">الاشتراك</a> }
       } @else {
         <a routerLink="/" class="keep" (click)="homeClick($event)">الرئيسية</a>
         <a href="javascript:void(0)" (click)="goSection('courses')">الكورسات</a>

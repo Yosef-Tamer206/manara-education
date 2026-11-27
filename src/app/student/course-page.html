@@ -12,14 +12,22 @@
         <div class="meta"><span>{{ doneCount() }} من {{ lessons().length }} دروس · {{ pct() }}٪</span></div>
         @if (next(); as nx) {
           <a class="btn gold" style="margin-top:12px" [routerLink]="['/lesson', nx.id]">{{ doneCount() ? 'كمّل من حيث وقفت' : 'ابدأ الكورس' }}</a>
+        } @else if (lessons().length) {
+          <a class="btn gold" style="margin-top:12px" routerLink="/subscribe">اشترك عشان تفتح الدروس</a>
         }
       </div>
     </div>
     <div class="card lessons" style="margin-top:20px">
       @for (l of lessons(); track l.id; let i = $index) {
-        <a class="les" [class.done]="done().has(l.id)" [routerLink]="['/lesson', l.id]">
-          <span class="n">{{ done().has(l.id) ? '✓' : i + 1 }}</span>{{ l.title }}<i class="go">←</i>
-        </a>
+        @if (l.unlocked) {
+          <a class="les" [class.done]="done().has(l.id)" [routerLink]="['/lesson', l.id]">
+            <span class="n">{{ done().has(l.id) ? '✓' : i + 1 }}</span>{{ l.title }}<i class="go">←</i>
+          </a>
+        } @else {
+          <a class="les locked" routerLink="/subscribe" [queryParams]="{ lesson: l.id }">
+            <span class="n">🔒</span>{{ l.title }}<i class="go">اشترك</i>
+          </a>
+        }
       } @empty {
         <p style="padding:14px">مفيش دروس لسه.</p>
       }

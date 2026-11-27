@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnDestroy, effect, inject, input, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import { GRADE_GRADIENT, TEST_PRICE } from '../core/constants';
+import { GRADE_GRADIENT } from '../core/constants';
 import { CatalogCourse } from '../core/models';
 import { SessionService } from '../core/session.service';
+import { SubscriptionService } from '../subscription/subscription.service';
 
 /** Horizontal, snap-scrolling list of published courses with arrows, dots and auto-advance. */
 @Component({
@@ -14,6 +15,7 @@ import { SessionService } from '../core/session.service';
 export class CourseCarousel implements OnDestroy {
   protected session = inject(SessionService);
   protected auth = inject(AuthService);
+  private subs = inject(SubscriptionService);
   readonly courses = input.required<CatalogCourse[]>();
 
   protected track = viewChild.required<ElementRef<HTMLElement>>('track');
@@ -21,7 +23,7 @@ export class CourseCarousel implements OnDestroy {
   protected showArrows = signal(true);
 
   protected gradient = (g: string) => GRADE_GRADIENT[g] || GRADE_GRADIENT['اولي ثانوي'];
-  protected price = (g: string) => TEST_PRICE[g];
+  protected price = () => this.subs.priceMonth();
   protected more = (c: CatalogCourse) => (c.lessons?.length || 0) - 4;
 
   private timer: ReturnType<typeof setInterval> | undefined;

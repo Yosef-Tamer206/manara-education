@@ -1,0 +1,17 @@
+<div class="card lcar" (mouseenter)="setHover(true)" (mouseleave)="setHover(false)" (focusin)="onFocusIn($event)" (focusout)="setHover(false)">
+  <h3>آخر الدروس المضافة</h3>
+  <div class="lcv">
+    @for (x of lessons(); track $index; let i = $index) {
+      <div class="ls" [class.on]="i === index()"><b>{{ x.title }}</b><span>{{ x.course }} · {{ x.grade }}</span></div>
+    }
+  </div>
+  @if (lessons().length > 1) {
+    <div class="lcn">
+      <button type="button" aria-label="السابق" (click)="show(index() - 1)">›</button>
+      <div class="ldots">
+        @for (x of lessons(); track $index; let i = $index) { <i [class.on]="i === index()" (click)="show(i)"></i> }
+      </div>
+      <button type="button" aria-label="التالي" (click)="show(index() + 1)">‹</button>
+    </div>
+  }
+</div>

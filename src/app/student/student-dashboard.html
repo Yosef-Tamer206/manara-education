@@ -1,0 +1,61 @@
+@if (session.profile(); as p) {
+  @if (!p.approved) {
+    <div class="page wrap">
+      <h1 class="pt">أهلاً {{ p.full_name }}</h1>
+      <div class="note">حسابك مسجّل وبينتظر موافقة المدرس. هتظهرلك الدروس أول ما يتفعّل. افتح الصفحة تاني بعد شوية.</div>
+    </div>
+  } @else if (loading()) {
+    <div class="page wrap"><div class="ld"><span class="spin"></span>جاري التحميل…</div></div>
+  } @else {
+    <div class="page wrap">
+      <div class="shero">
+        <div><small>أهلاً بيك</small><h1>{{ p.full_name }}</h1><span class="pill">{{ p.grade }}</span></div>
+        <div class="sst">
+          <div><b>{{ courses().length }}</b><span>كورس</span></div>
+          <div><b>{{ totals().done }}/{{ totals().total }}</b><span>درس خلصته</span></div>
+          <div><b>{{ average() === null ? '-' : average() + '%' }}</b><span>متوسط الاختبارات</span></div>
+        </div>
+      </div>
+
+      @if (announcements().length) {
+        <h3 style="margin:22px 0 10px">إعلانات المدرس</h3>
+        @for (a of announcements(); track a.id) {
+          <div class="ann">{{ a.body }}<div style="font-size:12px;color:var(--muted)">{{ arDate(a.created_at) }}</div></div>
+        }
+      }
+
+      <h3 style="margin:22px 0 10px">كورساتك</h3>
+      <div class="grid g3">
+        @for (c of courses(); track c.id) {
+          <a class="card course" [routerLink]="['/course', c.id]">
+            <div class="cvr">
+              @if (c.cover_url) { <img [src]="c.cover_url" alt="" loading="lazy"> } @else { <span>⚛</span> }
+            </div>
+            <div class="bd">
+              <h3>{{ c.title }}</h3>
+              <p style="color:var(--muted);font-size:15px">{{ c.description }}</p>
+              <div class="bar"><i [style.width.%]="progress(c.id).pct"></i></div>
+              <div class="meta"><span>{{ progress(c.id).done }} من {{ progress(c.id).total }} دروس</span><span class="pc">{{ progress(c.id).pct }}٪</span></div>
+            </div>
+          </a>
+        } @empty {
+          <div class="note">لسه مفيش كورسات متاحة لصفك.</div>
+        }
+      </div>
+
+      <h3 style="margin:26px 0 10px">نتايج اختباراتك</h3>
+      <div class="card">
+        @if (results().length) {
+          <table>
+            <tr><th>التاريخ</th><th>النتيجة</th></tr>
+            @for (r of results(); track $index) { <tr><td>{{ arDate(r.taken_at) }}</td><td>{{ r.score }} / {{ r.total }}</td></tr> }
+          </table>
+        } @else {
+          لسه ماحلّيتش اختبارات.
+        }
+      </div>
+    </div>
+  }
+} @else {
+  <div class="page wrap"><p>سجّل دخول الأول.</p></div>
+}

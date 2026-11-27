@@ -1,0 +1,24 @@
+<div class="card">
+  <table>
+    <tr><th>الاسم</th><th>الصف</th><th>الحالة</th><th></th></tr>
+    @for (s of students(); track s.id) {
+      <tr>
+        <td>{{ s.full_name }}</td>
+        <td>
+          @if (s.grade) {
+            {{ s.grade }}
+          } @else {
+            <select (change)="setGrade(s.id, $any($event.target).value)">
+              <option value="">اختار الصف</option>
+              @for (g of grades; track g) { <option [value]="g">{{ g }}</option> }
+            </select>
+          }
+        </td>
+        <td>@if (s.approved) { <span class="live">مفعّل</span> } @else { ينتظر }</td>
+        <td><button class="btn sm" [class.ghost]="s.approved" [class.gold]="!s.approved" (click)="setApproved(s.id, !s.approved)">{{ s.approved ? 'إيقاف' : 'تفعيل' }}</button></td>
+      </tr>
+    } @empty {
+      <tr><td colspan="4">لسه مفيش طلاب مسجلين.</td></tr>
+    }
+  </table>
+</div>

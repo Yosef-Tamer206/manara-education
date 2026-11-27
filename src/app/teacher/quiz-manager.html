@@ -1,0 +1,37 @@
+<div class="qmask" id="qm">
+  <div class="qbox">
+    <div class="qh"><b>أسئلة الدرس: {{ lessonTitle() }}</b><button class="btn sm ghost" (click)="closed.emit()">إغلاق</button></div>
+    <div class="qlist">
+      @for (x of list(); track x.id; let i = $index) {
+        <div class="qi">
+          <b>{{ i + 1 }}. {{ x.question }}</b>
+          <ul>
+            @for (o of x.options; track $index; let j = $index) {
+              <li [class.ok]="j === x.correct">{{ o }}{{ j === x.correct ? ' ✓' : '' }}</li>
+            }
+          </ul>
+          <button class="btn sm ghost" (click)="edit(x.id)">تعديل</button> <button class="btn sm ghost" (click)="remove(x.id)">حذف</button>
+        </div>
+      } @empty {
+        <p style="color:var(--muted)">مفيش أسئلة للدرس ده لسه.</p>
+      }
+    </div>
+    <div class="qform">
+      <h4>{{ editingId() ? 'تعديل السؤال' : 'سؤال جديد' }}</h4>
+      <label>نص السؤال</label>
+      <textarea rows="2" [value]="question()" (input)="question.set($any($event.target).value)"></textarea>
+      <label>الاختيارات (علّم الإجابة الصح بالدايرة)</label>
+      @for (o of options(); track $index; let j = $index) {
+        <div class="qo">
+          <input type="radio" name="qc" [checked]="correct() === j" (change)="correct.set(j)">
+          <input class="qopt" [value]="o" (input)="setOption(j, $any($event.target).value)" [placeholder]="'اختيار ' + (j + 1)">
+          @if (options().length > 2) { <button class="btn sm ghost" (click)="removeOption(j)">×</button> }
+        </div>
+      }
+      @if (options().length < 6) { <button class="btn sm ghost" (click)="addOption()">+ اختيار</button> }
+      <div style="margin:10px 0;font-weight:700;font-size:15px" [style.color]="msg()?.ok ? 'var(--ok)' : 'var(--bad)'">{{ msg()?.text }}</div>
+      <button class="btn" [disabled]="saving()" (click)="save()">{{ editingId() ? 'حفظ التعديل' : 'إضافة السؤال' }}</button>
+      @if (editingId()) { <button class="btn ghost" (click)="cancelEdit()">إلغاء التعديل</button> }
+    </div>
+  </div>
+</div>

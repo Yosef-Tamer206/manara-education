@@ -1,0 +1,29 @@
+@if (session.isTeacher()) {
+  <div class="page wrap">
+    <h1 class="pt">لوحة المدرس</h1>
+    <div id="tstat" class="tstat">
+      @if (stats(); as s) {
+        <div><b>{{ s.students }}</b><span>طالب</span></div>
+        <div [class.hot]="s.pending > 0"><b>{{ s.pending }}</b><span>ينتظر التفعيل</span></div>
+        <div><b>{{ s.courses }}</b><span>كورس</span></div>
+        <div><b>{{ s.lessons }}</b><span>درس</span></div>
+        <div><b>{{ s.homework }}</b><span>واجب</span></div>
+      }
+    </div>
+    <div class="tabs">
+      @for (t of tabs; track t.key) {
+        <button [class.on]="tab() === t.key" (click)="select(t.key)">{{ t.label }}</button>
+      }
+    </div>
+    <div id="tb">
+      @switch (tab()) {
+        @case ('students') { <app-students-tab (changed)="loadStats()" /> }
+        @case ('courses') { <app-courses-tab /> }
+        @case ('hw') { <app-homework-tab /> }
+        @case ('ann') { <app-announcements-tab /> }
+      }
+    </div>
+  </div>
+} @else {
+  <div class="page wrap"><div class="note">الصفحة دي للمدرس فقط.</div></div>
+}

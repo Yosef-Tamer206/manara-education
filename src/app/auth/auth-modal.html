@@ -1,0 +1,60 @@
+<div class="modal" id="auth" [class.show]="auth.open()" (pointerdown)="onBackdropDown($event)" (click)="onBackdropClick($event)">
+  <div class="box" id="authbox">
+    @switch (auth.mode()) {
+      @case ('sent') {
+        <h3>اتبعت رابط التأكيد</h3>
+        <p style="margin:12px 0">بعتنالك رسالة على بريدك. افتحها واضغط رابط التأكيد، وبعدها سجّل دخول. وبعد كده المدرس هيفعّل حسابك.</p>
+        <button class="btn" (click)="switchTo('in')">تسجيل الدخول</button>
+      }
+      @case ('reset') {
+        <h3>كلمة سر جديدة</h3>
+        <label>كلمة السر الجديدة</label>
+        <input type="password" dir="ltr" autocomplete="new-password" placeholder="6 حروف على الأقل"
+               [value]="newPassword()" (input)="newPassword.set($any($event.target).value)">
+        <div id="a_err" style="color:var(--bad);font-size:14px;margin-top:8px">{{ error() }}</div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="btn" (click)="setNewPassword()">حفظ</button>
+        </div>
+      }
+      @default {
+        <h3>{{ auth.mode() === 'up' ? 'إنشاء حساب طالب' : 'تسجيل الدخول' }}</h3>
+        @if (auth.mode() === 'in') {
+          <p class="note" style="margin-bottom:12px">للطلاب والمدرس. بعد الدخول بتروح لصفحتك تلقائي.</p>
+        }
+        @if (auth.mode() === 'up') {
+          <label>الاسم بالكامل</label>
+          <input autocomplete="name" [value]="name()" (input)="name.set($any($event.target).value)">
+          <label>الصف</label>
+          <select [value]="grade()" (change)="grade.set($any($event.target).value)">
+            @for (g of grades; track g) { <option [value]="g">{{ g }}</option> }
+          </select>
+        }
+        <label>البريد الإلكتروني</label>
+        <input type="email" autocomplete="email" dir="ltr" [value]="email()" (input)="email.set($any($event.target).value)">
+        <label>كلمة السر</label>
+        <input type="password" dir="ltr" placeholder="6 حروف على الأقل"
+               [attr.autocomplete]="auth.mode() === 'up' ? 'new-password' : 'current-password'"
+               [value]="password()" (input)="password.set($any($event.target).value)">
+        <div id="a_err" style="font-size:14px;margin-top:8px" [style.color]="errorOk() ? 'var(--ok)' : 'var(--bad)'">{{ error() }}</div>
+        <button class="btn" style="width:100%;margin-top:14px" (click)="submit()">{{ auth.mode() === 'up' ? 'إنشاء الحساب' : 'دخول' }}</button>
+        <div class="alinks">
+          @if (auth.mode() !== 'up') {
+            <a href="javascript:void(0)" (click)="forgot()">نسيت كلمة السر؟</a>
+          } @else {
+            <span></span>
+          }
+          <a href="javascript:void(0)" class="acancel" (click)="auth.close()">إلغاء</a>
+        </div>
+        <div class="adiv"><span>أو</span></div>
+        <button class="btn gold" style="width:100%" (click)="googleSignIn()">الدخول بحساب Google</button>
+        <p class="aswitch">
+          {{ auth.mode() === 'in' ? 'طالب جديد؟' : 'عندك حساب؟' }}
+          <a href="javascript:void(0)" (click)="switchTo(auth.mode() === 'in' ? 'up' : 'in')">{{ auth.mode() === 'in' ? 'أنشئ حساب طالب' : 'سجّل دخول' }}</a>
+        </p>
+        @if (auth.mode() === 'up') {
+          <p class="note" style="margin-top:10px">حسابك بيتفعّل بعد موافقة المدرس.</p>
+        }
+      }
+    }
+  </div>
+</div>

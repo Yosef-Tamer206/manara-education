@@ -1,0 +1,8 @@
+<div class="card">
+  <h3>إعلان جديد</h3>
+  <textarea rows="3" [value]="text()" (input)="text.set($any($event.target).value)"></textarea>
+  <button class="btn" style="margin-top:10px" (click)="add()">نشر</button>
+</div>
+<div class="card" style="margin-top:16px">
+  @for (a of items(); track a.id) { <div class="ann">{{ a.body }}</div> }
+</div>

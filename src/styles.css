@@ -1,0 +1,5 @@
+@import './styles/base.css';
+@import './styles/pages.css';
+@import './styles/home.css';
+@import './styles/motion.css';
+app-header,app-footer,app-auth-modal,app-toast,app-busy-badge,app-home,app-student-dashboard,app-course-page,app-lesson-page,app-teacher,app-course-carousel,app-latest-lessons,app-students-tab,app-courses-tab,app-quiz-manager,app-homework-tab,app-announcements-tab,app-video{display:contents}

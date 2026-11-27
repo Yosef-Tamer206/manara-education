@@ -1,0 +1,11 @@
+<div class="card">
+  @for (x of items(); track x.id) {
+    <div class="ann">
+      <b>{{ students()[x.student_id] }}</b> · {{ lessons()[x.lesson_id] }}
+      <div style="white-space:pre-wrap" [innerHTML]="x.content | linkify"></div>
+      <div style="font-size:12px;color:var(--muted)" dir="rtl"><bdi>{{ arDate(x.submitted_at) }}</bdi> · <bdi>{{ arTime(x.submitted_at) }}</bdi></div>
+    </div>
+  } @empty {
+    لسه مفيش واجبات.
+  }
+</div>

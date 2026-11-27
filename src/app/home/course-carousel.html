@@ -1,0 +1,39 @@
+<div class="ctrk" tabindex="0" aria-label="الكورسات" #track>
+  @for (c of courses(); track c.id) {
+    <div class="card course">
+      <div class="cover" [style.background]="gradient(c.grade)">
+        @if (c.cover_url) { <img [src]="c.cover_url" [alt]="c.title" loading="lazy"> } @else { <span>⚛</span> }
+      </div>
+      <div class="bd">
+        <span class="pill">{{ c.grade }}</span>
+        <h3>{{ c.title }}</h3>
+        <div class="meta"><span>{{ c.lessons?.length || 0 }} درس منشور</span></div>
+        @if (c.lessons?.length) {
+          <ul class="lsn">
+            @for (t of c.lessons!.slice(0, 4); track $index) { <li>{{ t }}</li> }
+            @if (more(c) > 0) { <li style="list-style:none;color:var(--muted)">و{{ more(c) }} دروس تانية…</li> }
+          </ul>
+        } @else {
+          <p style="font-size:14px;color:var(--muted)">الدروس جاية قريب.</p>
+        }
+        @if (price(c.grade)) {
+          <div class="cprice"><b>{{ price(c.grade) }} ج.م</b> / شهر <a href="test-payment.html">سعر تجريبي</a></div>
+        }
+        <div style="margin-top:auto;padding-top:10px">
+          @if (session.profile(); as p) {
+            <a class="btn sm" [routerLink]="session.homeLink()">افتح منصتك</a>
+          } @else {
+            <button class="btn sm gold" (click)="auth.openAuth('up')">سجّل عشان تفتح الدروس</button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>
+<div class="lcn" [style.display]="showArrows() ? 'flex' : 'none'">
+  <button type="button" aria-label="السابق" (click)="arrow('prev')">›</button>
+  <div class="ldots">
+    @for (c of courses(); track c.id; let i = $index) { <i [class.on]="i === active()" (click)="go(i)"></i> }
+  </div>
+  <button type="button" aria-label="التالي" (click)="arrow('next')">‹</button>
+</div>

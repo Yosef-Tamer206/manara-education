@@ -1,0 +1,30 @@
+@if (loading()) {
+  <div class="page wrap"><div class="ld"><span class="spin"></span>جاري التحميل…</div></div>
+} @else if (course(); as c) {
+  <div class="page wrap">
+    <div class="crumbs"><a routerLink="/me">منصتي</a> / {{ c.title }}</div>
+    <div class="chd">
+      <div class="cvr2">@if (c.cover_url) { <img [src]="c.cover_url" alt=""> } @else { <span>⚛</span> }</div>
+      <div class="chdt">
+        <h1 class="pt">{{ c.title }}</h1>
+        <p style="color:var(--muted)">{{ c.description }}</p>
+        <div class="bar"><i [style.width.%]="pct()"></i></div>
+        <div class="meta"><span>{{ doneCount() }} من {{ lessons().length }} دروس · {{ pct() }}٪</span></div>
+        @if (next(); as nx) {
+          <a class="btn gold" style="margin-top:12px" [routerLink]="['/lesson', nx.id]">{{ doneCount() ? 'كمّل من حيث وقفت' : 'ابدأ الكورس' }}</a>
+        }
+      </div>
+    </div>
+    <div class="card lessons" style="margin-top:20px">
+      @for (l of lessons(); track l.id; let i = $index) {
+        <a class="les" [class.done]="done().has(l.id)" [routerLink]="['/lesson', l.id]">
+          <span class="n">{{ done().has(l.id) ? '✓' : i + 1 }}</span>{{ l.title }}<i class="go">←</i>
+        </a>
+      } @empty {
+        <p style="padding:14px">مفيش دروس لسه.</p>
+      }
+    </div>
+  </div>
+} @else {
+  <div class="page wrap"><div class="note">الكورس ده مش متاح. <a routerLink="/me">رجوع لمنصتي</a></div></div>
+}

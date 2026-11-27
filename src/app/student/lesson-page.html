@@ -1,0 +1,55 @@
+@if (loading()) {
+  <div class="page wrap"><div class="ld"><span class="spin"></span>جاري التحميل…</div></div>
+} @else if (lesson(); as l) {
+  <div class="page wrap">
+    <div class="crumbs"><a routerLink="/me">منصتي</a> / <a [routerLink]="['/course', l.course_id]">الكورس</a></div>
+    <h1 class="pt">{{ l.title }}</h1>
+    <div class="card" style="margin-top:16px">
+      <app-video [url]="l.video_url" />
+      <div class="prose" style="white-space:pre-wrap">{{ l.body }}</div>
+      <div style="margin-top:18px">
+        <button class="btn" [class.ghost]="completed()" [class.gold]="!completed()" (click)="markDone()">{{ completed() ? '✓ تم المذاكرة' : 'علّم الدرس كمكتمل' }}</button>
+      </div>
+    </div>
+
+    @if (questions().length) {
+      <div class="card" style="margin-top:20px">
+        <h3>اختبار الدرس</h3>
+        <div id="quiz">
+          @for (q of questions(); track q.id; let i = $index) {
+            <div class="q">
+              <h4>{{ i + 1 }}. {{ q.question }}</h4>
+              @for (o of q.options; track $index; let j = $index) {
+                <label class="opt" [class]="'opt ' + optionClass(i, q.id, j)">
+                  <input type="radio" [name]="'q' + i" [value]="j" [checked]="answers()[i] === j" [disabled]="quizLocked()" (change)="pick(i, j)">{{ o }}
+                </label>
+              }
+            </div>
+          }
+          <button class="btn" (click)="gradeQuiz()">صحّح</button>
+          <div id="qres">
+            @if (quizError()) {
+              <p style="color:var(--bad)">{{ quizError() }}</p>
+              <p style="color:var(--bad)">النتيجة ما اتحفظتش. اضغط صحّح تاني</p>
+            }
+            @if (outcome(); as o) {
+              <p class="score">{{ o.score }} / {{ o.total }}</p>
+              <p style="color:var(--muted)">النتيجة اتحفظت.</p>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="card" style="margin-top:20px">
+      <h3>تسليم واجب</h3>
+      @for (h of homework(); track h.id) {
+        <div class="ann">{{ h.content }}<div style="font-size:12px;color:var(--muted)">اتسلّم {{ arDateTime(h.submitted_at) }}</div></div>
+      }
+      <textarea rows="4" placeholder="اكتب حلك أو رابط ملف (Google Drive مثلاً)" [value]="homeworkText()" (input)="homeworkText.set($any($event.target).value)"></textarea>
+      <button class="btn" style="margin-top:10px" (click)="sendHomework()">تسليم</button>
+    </div>
+  </div>
+} @else {
+  <div class="page wrap"><div class="note">الدرس ده مش متاح أو اتمسح. <a routerLink="/me">رجوع لمنصتي</a></div></div>
+}

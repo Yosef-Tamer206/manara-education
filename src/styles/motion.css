@@ -1,0 +1,125 @@
+/* b26 motion */
+@keyframes mFade{from{opacity:0}to{opacity:1}}
+@keyframes mPop{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes mUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes mSel{0%{transform:scale(.97)}60%{transform:scale(1.015)}100%{transform:scale(1)}}
+@keyframes mToast{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+.modal.show{animation:mFade .22s ease both}
+.modal.show .box{animation:mPop .32s cubic-bezier(.2,.8,.2,1) both}
+#app>*{animation:mUp .45s cubic-bezier(.2,.8,.2,1) both}
+.card,.gcard{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.card:hover,.gcard:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(20,38,79,.12)}
+.btn:active{transform:scale(.97)}
+.opt{transition:border-color .2s,background .2s,box-shadow .2s,transform .2s}
+.opt:hover{transform:translateX(-3px)}
+.opt:has(input:checked){animation:mSel .3s ease}
+.opt.right,.opt.wrong{animation:mSel .4s ease}
+.toast{animation:mToast .3s ease both}
+@supports(animation-timeline:view()){.sh,.gcard,.card.course{animation:mUp both;animation-timeline:view();animation-range:entry 0% entry 35%}}
+.lcar .lcv{position:relative;min-height:84px;margin-top:8px}.lcar .ls{display:none;flex-direction:column;gap:6px;padding:14px 16px;border-radius:12px;background:#f3f6ff;border:1px solid var(--line)}.lcar .ls.on{display:flex;animation:mUp .45s ease both}.lcar .ls b{font-size:18px}.lcar .ls span{color:var(--muted);font-size:14px}.lcn{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:12px}.lcn button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:20px;cursor:pointer;line-height:1}.ldots{display:flex;gap:7px}.ldots i{width:8px;height:8px;border-radius:50%;background:#cdd5e6;cursor:pointer;transition:all .25s}.ldots i.on{width:22px;border-radius:6px;background:#2f5bea}
+
+/* b29 motion */
+@keyframes mUp2{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+@keyframes hdrIn{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes hb{0%,100%{transform:translateX(-50%) rotate(-8deg) scale(1)}50%{transform:translateX(-50%) rotate(2deg) scale(1.07)}}
+@keyframes hb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(22px,-24px) scale(1.1)}}
+@keyframes spn{to{transform:rotate(360deg)}}
+@keyframes cta{0%{box-shadow:0 0 0 0 rgba(20,38,79,.45)}70%,100%{box-shadow:0 0 0 16px rgba(20,38,79,0)}}
+@keyframes cutIn{from{opacity:0;transform:translateY(60px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(-12px,10px)}}
+#app>*{animation:mUp2 .7s cubic-bezier(.2,.8,.2,1) both}
+header{animation:hdrIn .7s cubic-bezier(.2,.8,.2,1) both}
+.sh,.gcard,.card.course{animation:none!important}
+.rv{opacity:0;transform:translateY(38px) scale(.96);transition:opacity .75s cubic-bezier(.2,.8,.2,1) var(--d,0ms),transform .75s cubic-bezier(.2,.8,.2,1) var(--d,0ms)!important}
+.rv.in{opacity:1;transform:none}
+.stage2 .blob{animation:hb 7s ease-in-out infinite}
+.stage2 .blob2{animation:hb2 6s ease-in-out infinite}
+.stage2 .ring{animation:spn 8s linear infinite}
+.stage2 .atom{animation:spn 12s linear infinite}
+.stage2 .dots{animation:drift 5s ease-in-out infinite}
+.stage2 img.cut{animation:cutIn 1s cubic-bezier(.2,.8,.2,1) .15s both,fl 5s ease-in-out 1.2s infinite}
+.gcard svg{animation:spn 26s linear infinite}
+.hero .btn.gold{animation:cta 2.2s ease-out infinite}
+.btn{transition:transform .2s,box-shadow .2s,background .2s,border-color .2s,color .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(20,38,79,.22)}
+.btn:active{transform:scale(.93)}
+.card:hover,.gcard:hover{transform:translateY(-9px) scale(1.025);box-shadow:0 22px 44px rgba(20,38,79,.2)}
+.card,.gcard{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .3s}
+.cover img,.course .cover{transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.course:hover .cover img{transform:scale(1.1)}
+.feat .ic{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.feat:hover .ic{transform:rotate(-12deg) scale(1.2)}
+.nav nav a{transition:background .2s,color .2s,transform .2s}
+.nav nav a:hover{transform:translateY(-2px)}
+.tabs button{transition:all .25s}.tabs button:hover{transform:translateY(-2px)}
+.les{transition:background .2s,transform .25s}.les:hover{transform:translateX(-8px)}
+details{transition:box-shadow .3s}details[open]{box-shadow:0 10px 26px rgba(20,38,79,.12)}details[open] p{animation:mUp2 .45s ease both}
+.bar i{transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.lcar .ls.on{animation:mUp2 .6s cubic-bezier(.2,.8,.2,1) both}
+.modal.show .box{animation:mPop .5s cubic-bezier(.2,.9,.25,1.15) both}
+#catalog.grid{grid-template-columns:repeat(3,1fr);gap:20px}
+#catalog .course .cover{height:auto!important;aspect-ratio:7/3}
+#catalog .course .cover img{transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .4s}
+#catalog .course .cover:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,38,79,.55),transparent 60%);opacity:0;transition:opacity .4s}
+#catalog .course .bd{padding:14px 15px 15px;gap:5px}
+#catalog .course h3{font-size:17px}
+#catalog .course p,#catalog .course .lsn{font-size:13px!important}
+#catalog .course .pill{font-size:12px;padding:1px 10px}
+#catalog .course .btn.sm{font-size:13px;padding:8px 14px;transition:transform .3s,box-shadow .3s}
+#catalog .course{transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s,border-color .3s}
+#catalog .course:hover{transform:translateY(-10px) scale(1.03);border-color:var(--accent);box-shadow:0 26px 48px rgba(20,38,79,.24)}
+#catalog .course:hover .cover img{transform:scale(1.15)}
+#catalog .course:hover .cover:after{opacity:1}
+#catalog .course:hover .btn.sm{transform:translateY(-2px);box-shadow:0 8px 18px rgba(255,128,10,.4)}
+.adiv{display:flex;align-items:center;gap:12px;margin:16px 0 4px;color:var(--muted);font-size:13px}.adiv:before,.adiv:after{content:"";flex:1;height:1px;background:var(--line)}
+.alinks{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:14px}.alinks a{color:var(--ink2);font-weight:700}.alinks a.acancel{color:var(--muted);font-weight:600}
+.aswitch{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);text-align:center}.aswitch a{color:var(--ink2);font-weight:700}
+.ccar{display:block}.ccar .ctrk{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:auto;padding:18px 10px 26px;margin:-18px -10px -10px;scrollbar-width:none;outline:none}.ccar .ctrk::-webkit-scrollbar{display:none}
+.ccar .ctrk>.course{flex:0 0 calc((100% - 40px)/3);scroll-snap-align:start;scroll-margin-inline:10px;min-width:0}
+.ccar .lcn{margin-top:14px}.ccar .lcn button{width:42px;height:42px;font-size:24px;transition:transform .25s,background .25s,color .25s,border-color .25s}.ccar .lcn button:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:scale(1.12)}
+@media(max-width:900px){.ccar .ctrk>.course{flex-basis:calc((100% - 20px)/2)}}
+@media(max-width:600px){.ccar .ctrk>.course{flex-basis:100%}.ccar .ctrk{gap:14px}}
+.thm{margin-inline-start:8px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;cursor:pointer;flex:none;line-height:1;display:inline-grid;place-items:center;padding:0;transition:transform .35s,box-shadow .3s}.thm:hover{transform:rotate(25deg) scale(1.12);box-shadow:0 6px 16px rgba(0,0,0,.18)}.thm i{font-style:normal}
+footer{background:linear-gradient(135deg,#14264f,#1d3f85);color:#d3dcf2;border-top:0}
+html[data-theme=dark]{color-scheme:dark;--ink:#eceef2;--ink2:#ffb36b;--bg:#0e0f12;--card:#1a1c22;--line:#2c2f38;--muted:#a3a8b5;--ok:#3ccf91;--bad:#ff7b7b}
+html[data-theme=dark] body{background:#0e0f12;color:#eceef2}
+html[data-theme=dark] header{background:#15171c!important}
+html[data-theme=dark] .hero,html[data-theme=dark] .grades,html[data-theme=dark] #courses,html[data-theme=dark] #faq,html[data-theme=dark] .abt,html[data-theme=dark] #about{background:#0e0f12!important;color:#eceef2}
+html[data-theme=dark] #how{background:#14161b!important}
+html[data-theme=dark] .hero p,html[data-theme=dark] .prose p,html[data-theme=dark] .prose li,html[data-theme=dark] .lsn{color:#bfc3ce}
+html[data-theme=dark] .card,html[data-theme=dark] #how .card,html[data-theme=dark] .faq details,html[data-theme=dark] .tstat>div,html[data-theme=dark] .ann,html[data-theme=dark] .qbox,html[data-theme=dark] .tcard,html[data-theme=dark] .modal .box,html[data-theme=dark] #busybadge{background:#1a1c22!important;color:#eceef2;border-color:#2c2f38}
+html[data-theme=dark] #how .card{border-color:#454a59}
+html[data-theme=dark] .course{border-color:#2c2f38}
+html[data-theme=dark] input,html[data-theme=dark] textarea,html[data-theme=dark] select{background:#101216;color:#eceef2;border-color:#3a3e4a}
+html[data-theme=dark] input::placeholder,html[data-theme=dark] textarea::placeholder{color:#868b99}
+html[data-theme=dark] th{background:#20232b;color:#a3a8b5}
+html[data-theme=dark] .modal{background:rgba(3,6,14,.72)!important}
+html[data-theme=dark] .btn:not(.gold):not(.ghost),html[data-theme=dark] .hero .btn.gold,html[data-theme=dark] header .nav nav a.keep,html[data-theme=dark] .tabs button.on,html[data-theme=dark] .logo i,html[data-theme=dark] #how .feat .ic,html[data-theme=dark] input[type=file]::file-selector-button,html[data-theme=dark] .toast{background:#ff8a1f!important;color:#1b1200!important}
+html[data-theme=dark] .logo i{color:#ffb36b!important;background:#262a35!important}
+html[data-theme=dark] .btn:not(.gold):not(.ghost):hover,html[data-theme=dark] .hero .btn.gold:hover,html[data-theme=dark] header .nav nav a.keep:hover{background:#ffa04d!important}
+html[data-theme=dark] .btn.gold{background:#ff8a1f;color:#1b1200}
+html[data-theme=dark] .btn.ghost,html[data-theme=dark] .hero .btn.ghost{color:#eceef2!important;border-color:#5a5f70!important;background:transparent!important}
+html[data-theme=dark] .btn.ghost:hover{background:#23262e!important;border-color:#ffb36b!important}
+html[data-theme=dark] .tabs button{background:#1a1c22;color:#bfc3ce}
+html[data-theme=dark] .nav nav a:hover,html[data-theme=dark] .nav nav a.on,html[data-theme=dark] #who .wname,html[data-theme=dark] .les:hover{background:#23262e;color:#eceef2}
+html[data-theme=dark] .nav nav a{color:#bfc3ce}
+html[data-theme=dark] .les.on,html[data-theme=dark] .lcar .ls,html[data-theme=dark] .feat .ic{background:#262a35}
+html[data-theme=dark] .note{background:#2a2410;border-color:#5b4a14;color:#f1d98a}
+html[data-theme=dark] .opt{background:#1a1c22;border-color:#2c2f38;color:#eceef2}
+html[data-theme=dark] .opt.right{background:#0f2e22}html[data-theme=dark] .opt.wrong{background:#3a1717}
+html[data-theme=dark] .ab-f,html[data-theme=dark] .thm,html[data-theme=dark] .gbox{background:#1d2740;color:#eceef2;border-color:#3a3e4a}
+html[data-theme=dark] a.gcard .gbox{background:rgba(8,16,40,.55);color:#fff}
+html[data-theme=dark] .abt-txt .pill{background:#2d2012;color:#ffb36b}
+html[data-theme=dark] .sh small,html[data-theme=dark] .htxt .kick,html[data-theme=dark] .tstats b,html[data-theme=dark] .tstat b,html[data-theme=dark] #how .feat h3,html[data-theme=dark] .shero h1{color:#eceef2}
+html[data-theme=dark] .rule{background:#ffb36b}
+html[data-theme=dark] .stage2 .blob,html[data-theme=dark] .ab-blob{background:#d9482a}
+html[data-theme=dark] .stage2 .blob2,html[data-theme=dark] .ab-blob2{background:#c9806b;opacity:.55}
+html[data-theme=dark] .alinks a,html[data-theme=dark] .aswitch a{color:#ffb36b}
+html[data-theme=dark] footer{background:#15171c;color:#a3a8b5;border-top:0}
+html[data-theme=dark] .lcar .lcn button,html[data-theme=dark] .ccar .lcn button{background:#1a1c22;color:#eceef2;border-color:#3a3e4a}background:#121317;color:#a3a8b5;border-top:0}
+@media(max-width:600px){.thm{width:36px;height:36px;margin-inline-start:4px}}
+@media(max-width:900px){#catalog.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){#catalog.grid{grid-template-columns:1fr}#catalog .course .cover{height:170px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-iteration-count:1!important;scroll-behavior:auto!important}header,.stage2 *,.gcard svg,.hero .btn.gold,.stage2 img.cut,.opt:has(input:checked),.opt.right,.opt.wrong{animation:none!important}#app>*,.lcar .ls.on,details[open] p,.modal.show .box,.toast{animation:mFade .4s ease both!important}.rv{transform:none!important}.card:hover,.gcard:hover,.btn:hover,.btn:active,.nav nav a:hover,.tabs button:hover,.les:hover,.opt:hover,.feat:hover .ic,.course:hover .cover img,.les:hover .go{transform:none!important}}
+

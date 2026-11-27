@@ -1,0 +1,26 @@
+<header [style.--p]="progress()">
+  <div class="wrap nav">
+    <a class="logo" routerLink="/"><i>ف</i><span>أ. محمد نصر</span></a>
+    <nav id="nav">
+      @if (session.profile(); as p) {
+        <a [routerLink]="session.homeLink()" class="keep">{{ p.role === 'teacher' ? 'لوحة المدرس' : 'منصتي' }}</a>
+      } @else {
+        <a routerLink="/" class="keep" (click)="homeClick($event)">الرئيسية</a>
+        <a href="javascript:void(0)" (click)="goSection('courses')">الكورسات</a>
+        <a href="javascript:void(0)" (click)="goSection('about')">عن المدرس</a>
+        <a href="javascript:void(0)" (click)="goSection('faq')">أسئلة</a>
+      }
+    </nav>
+    <span id="who">
+      @if (session.profile(); as p) {
+        <span class="wname"><span class="wf">{{ p.full_name }}</span><span class="w1">{{ shortName(p.full_name) }}</span></span>
+        <button class="btn ghost sm" (click)="session.logout()">خروج</button>
+      } @else {
+        <button class="btn gold sm" (click)="auth.openAuth('in')">تسجيل الدخول</button>
+      }
+    </span>
+    <button type="button" id="thm" class="thm" (click)="theme.toggle()"
+            [title]="theme.dark() ? 'الوضع الفاتح' : 'الوضع الداكن'"
+            [attr.aria-label]="theme.dark() ? 'الوضع الفاتح' : 'الوضع الداكن'"><i>{{ theme.dark() ? '☀️' : '🌙' }}</i></button>
+  </div>
+</header>

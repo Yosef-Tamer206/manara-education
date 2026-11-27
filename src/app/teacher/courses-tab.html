@@ -1,0 +1,63 @@
+<div class="grid g2">
+  <div class="card">
+    <h3>كورس جديد</h3>
+    <label>الاسم</label>
+    <input [value]="cTitle()" (input)="cTitle.set($any($event.target).value)">
+    <label>وصف</label>
+    <textarea rows="2" [value]="cDesc()" (input)="cDesc.set($any($event.target).value)"></textarea>
+    <label>الصف</label>
+    <select [value]="cGrade()" (change)="cGrade.set($any($event.target).value)">
+      @for (g of grades; track g) { <option [value]="g">{{ g }}</option> }
+    </select>
+    <label>غلاف الكورس (أي صورة، اختياري)</label>
+    <input type="file" accept="image/jpeg,image/png,image/webp" (change)="setFile($event)">
+    <button class="btn" style="margin-top:12px" (click)="addCourse()">إضافة</button>
+    <div style="margin-top:10px;font-weight:700;font-size:15px" [style.color]="cMsg()?.ok ? '#14915c' : '#c93a3a'">{{ cMsg()?.text }}</div>
+    <div style="margin-top:6px;font-size:11px;color:#9aa3b8">إصدار الموقع: {{ version }}</div>
+  </div>
+  <div class="card">
+    <h3>درس جديد</h3>
+    <label>الكورس</label>
+    <select [value]="lCourse()" (change)="lCourse.set($any($event.target).value)">
+      @for (c of courses(); track c.id) { <option [value]="c.id">{{ c.title }} · {{ c.grade }}</option> }
+    </select>
+    <label>عنوان الدرس</label>
+    <input [value]="lTitle()" (input)="lTitle.set($any($event.target).value)">
+    <label>رابط فيديو (YouTube) اختياري</label>
+    <input dir="ltr" [value]="lVideo()" (input)="lVideo.set($any($event.target).value)">
+    <label>الشرح</label>
+    <textarea rows="4" [value]="lBody()" (input)="lBody.set($any($event.target).value)"></textarea>
+    <button class="btn" style="margin-top:12px" (click)="addLesson()">إضافة</button>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px">
+  <h3>الكورسات الحالية</h3>
+  <table>
+    <tr><th>الكورس</th><th>الصف</th><th>الدروس</th><th>النشر</th><th></th></tr>
+    @for (c of courses(); track c.id) {
+      <tr>
+        <td>
+          @if (c.cover_url) { <img [src]="c.cover_url" style="width:64px;height:40px;object-fit:cover;border-radius:6px;display:block;margin-bottom:6px"> }
+          {{ c.title }}
+          <label style="font-weight:600;font-size:12px;margin:6px 0 2px">{{ c.cover_url ? 'تغيير الغلاف' : 'إضافة غلاف' }}</label>
+          <input type="file" accept="image/jpeg,image/png,image/webp" style="font-size:12px;padding:4px" (change)="setCover(c.id, $event)">
+        </td>
+        <td>{{ c.grade }}</td>
+        <td>
+          @for (l of lessonsOf(c.id); track l.id) {
+            <div>{{ l.title }} <a href="javascript:void(0)" style="color:var(--ink2);font-weight:700" (click)="quizFor.set({ id: l.id, title: l.title })">الأسئلة ({{ questionCount()[l.id] || 0 }})</a></div>
+          } @empty {
+            -
+          }
+        </td>
+        <td>@if (c.published) { <span class="live">منشور</span> } @else { مسودة }</td>
+        <td><button class="btn sm ghost" (click)="togglePublished(c)">{{ c.published ? 'إخفاء' : 'نشر' }}</button></td>
+      </tr>
+    }
+  </table>
+</div>
+
+@if (quizFor(); as q) {
+  <app-quiz-manager [lessonId]="q.id" [lessonTitle]="q.title" (closed)="closeQuiz()" />
+}

@@ -1,0 +1,120 @@
+<section class="hero">
+  <div class="wrap">
+    <div class="htxt">
+      <small class="kick">منصة الفيزياء للثانوية العامة</small>
+      <h1>مع <span class="gr">أ. محمد نصر</span><br><span class="gr">الفيزياء تبقى أسهل</span></h1>
+      <hr class="rule">
+      <p>دروس، اختبارات بتصحيح فوري، وواجبات بتتسلّم للمدرس مباشرة. لطلاب اولي ثانوي وتانية بكالوريا وتالتة بكالوريا.</p>
+      <div class="cta">
+        @if (session.profile(); as p) {
+          <a class="btn gold" [routerLink]="session.homeLink()">ادخل منصتك</a>
+        } @else {
+          <button class="btn gold" (click)="auth.openAuth('up')">سجّل كطالب</button>
+          <button class="btn ghost" (click)="auth.openAuth('in')">عندي حساب</button>
+        }
+        <button class="btn ghost" (click)="goSection('courses')">شوف الكورسات</button>
+      </div>
+    </div>
+    <div class="stage2">
+      <span class="blob"></span><span class="blob2"></span><span class="ring r1"></span><span class="ring r2"></span><span class="dots"></span>
+      <svg class="atom a1" viewBox="0 0 100 100" fill="none" stroke="#ff800a" stroke-width="2"><ellipse cx="50" cy="50" rx="44" ry="16"/><ellipse cx="50" cy="50" rx="44" ry="16" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="44" ry="16" transform="rotate(120 50 50)"/><circle cx="50" cy="50" r="5" fill="#ff800a"/></svg>
+      <img class="cut" src="assets/img-4.webp" alt="أ. محمد نصر">
+    </div>
+  </div>
+</section>
+
+<section id="grades" class="grades">
+  <div class="wrap">
+    <div class="sh c"><small>اختار سنتك</small><h2><span class="gr">كل السنوات الدراسية</span></h2><hr class="rule"><p>كل سنة ليها كورساتها ودروسها واختباراتها. اختار صفك وابدأ.</p></div>
+    <div class="grid g3">
+      @for (g of grades; track g; let i = $index) {
+        <a class="gcard" [class]="'gcard gc' + i" href="javascript:void(0)" (click)="pickGrade(i)">
+          <span class="gtab">{{ g }}</span>
+          <svg viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.6"><ellipse cx="50" cy="50" rx="44" ry="16"/><ellipse cx="50" cy="50" rx="44" ry="16" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="44" ry="16" transform="rotate(120 50 50)"/><circle cx="50" cy="50" r="5" fill="#fff"/></svg>
+          <div class="gbox"><b>{{ catalog.status() === 'ready' ? catalog.gradeCounts()[i] : '–' }}</b> كورس منشور<span>شوف كل كورسات {{ g }}</span></div>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<section id="courses">
+  <div class="wrap">
+    <div class="sh"><small>الكورسات</small><h2>اللي اتنشر لحد دلوقتي</h2><p>الغلاف والوصف وعناوين الدروس ظاهرين للجميع. محتوى الدروس نفسه بيفتح للطالب بعد ما المدرس يفعّل حسابه.</p></div>
+    <div class="tabs" id="ctabs">
+      <button [class.on]="catalog.filter() === 'all'" (click)="catalog.filter.set('all')">كل الصفوف</button>
+      @for (g of grades; track g) {
+        <button [class.on]="catalog.filter() === g" (click)="catalog.filter.set(g)">{{ g }}</button>
+      }
+    </div>
+    <div id="catalog" [class]="catalog.status() === 'ready' && catalog.visible().length ? 'ccar' : 'grid g3'">
+      @switch (catalog.status()) {
+        @case ('loading') { <div class="ld"><span class="spin"></span>جاري التحميل…</div> }
+        @case ('error') { <p style="color:var(--muted)">تعذّر تحميل الكورسات دلوقتي.</p> }
+        @default {
+          @if (catalog.visible().length) {
+            <app-course-carousel [courses]="catalog.visible()" />
+          } @else {
+            <div class="card" style="grid-column:1/-1">
+              <h3>{{ catalog.courses().length ? 'مفيش كورسات منشورة للصف ده لسه' : 'الكورسات جاية قريب' }}</h3>
+              <p style="color:var(--muted)">المدرس بيجهّز الكورسات. أول ما تتنشر هتظهر هنا بتفاصيلها ودروسها وغلافها.</p>
+            </div>
+          }
+        }
+      }
+    </div>
+    <div id="latest" style="margin-top:22px">
+      @if (catalog.status() === 'ready' && catalog.latestLessons().length) {
+        <app-latest-lessons [lessons]="catalog.latestLessons()" />
+      }
+    </div>
+  </div>
+</section>
+
+<section id="about" class="abt">
+  <div class="wrap">
+    <div class="sh"><small>عن المدرس</small><h2>أ. محمد نصر</h2></div>
+    <div class="abt-grid">
+      <div class="abt-pic">
+        <div class="ab-blob"></div><div class="ab-blob2"></div>
+        <svg class="ab-atom" viewBox="0 0 100 100" fill="none" stroke="#ff800a" stroke-width="2"><ellipse cx="50" cy="50" rx="44" ry="16"/><ellipse cx="50" cy="50" rx="44" ry="16" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="44" ry="16" transform="rotate(120 50 50)"/><circle cx="50" cy="50" r="5" fill="#ff800a"/></svg>
+        <span class="ab-f f1">F = m·a</span><span class="ab-f f2">E = mc²</span><span class="ab-f f3">v = d / t</span>
+        <img class="ab-cut" src="assets/img-4.webp" alt="أ. محمد نصر">
+      </div>
+      <div class="abt-txt">
+        <span class="pill">مدرس فيزياء</span>
+        <h3 class="abt-h">الفيزياء بتبقى أسهل مع أ. محمد نصر</h3>
+        <p>بيشرح الفيزياء لطلاب أولى ثانوي وتانية بكالوريا وتالتة بكالوريا. المنصة دي مكان واحد للدروس والاختبارات والواجبات.</p>
+        <div class="abt-g">
+          @for (g of grades; track g; let i = $index) {
+            <a [class]="'agc gcard gc' + i" href="javascript:void(0)" (click)="pickGrade(i)"><b>{{ i + 1 }}</b><span>{{ g }}</span><em>شوف الكورسات ←</em></a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sh"><small>إزاي بتشتغل</small><h2>أربع خطوات</h2></div>
+    <div class="grid g4">
+      <div class="card feat"><div class="ic">1</div><h3>سجّل حسابك</h3><p>بحساب Google أو بالاسم والصف والبريد.</p></div>
+      <div class="card feat"><div class="ic">2</div><h3>المدرس يفعّل</h3><p>بعد التفعيل بتظهرلك دروس صفك.</p></div>
+      <div class="card feat"><div class="ic">3</div><h3>اتعلّم</h3><p>شوف الدرس واقرا الشرح.</p></div>
+      <div class="card feat"><div class="ic">4</div><h3>اختبر وسلّم</h3><p>حل الاختبار بتصحيح فوري وسلّم الواجب للمدرس.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="background:#fff">
+  <div class="wrap">
+    <div class="sh"><small>أسئلة شائعة</small><h2>قبل ما تسجّل</h2></div>
+    <div class="faq">
+      <details><summary>لازم أسجّل عشان أشوف الدروس؟</summary><p>الكورسات وعناوين الدروس ظاهرة للجميع. فتح محتوى الدروس بيحتاج حساب مفعّل من المدرس.</p></details>
+      <details><summary>إزاي أسجّل؟</summary><p>اضغط «سجّل كطالب» واختار الدخول بحساب Google أو أكتب اسمك وصفك وبريدك وكلمة سر.</p></details>
+      <details><summary>امتى حسابي يتفعّل؟</summary><p>بعد ما تسجّل، المدرس بيراجع حسابك ويفعّله. هتشوف رسالة انتظار لحد ما يتفعّل.</p></details>
+      <details><summary>الاختبارات والواجبات إزاي؟</summary><p>كل درس ممكن يكون له اختبار بتصحيح فوري، وتقدر تسلّم الواجب للمدرس من نفس صفحة الدرس.</p></details>
+    </div>
+  </div>
+</section>

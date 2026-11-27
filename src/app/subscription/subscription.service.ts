@@ -9,6 +9,7 @@ export const EMPTY_SETTINGS: PaymentSettings = {
   payment_number: '',
   payment_methods: '',
   unconfirmed_hours: '48',
+  payments_enabled: 'off',
 };
 
 /** Why the bot rejected a request, shown in the history lists. */
@@ -32,6 +33,8 @@ export class SubscriptionService {
   readonly settings = signal<PaymentSettings>({ ...EMPTY_SETTINGS });
   readonly items = signal<Subscription[]>([]);
   readonly loaded = signal(false);
+  /** Decided by the database: payments are on and a real transfer number is set. */
+  readonly paymentsOpen = signal(false);
 
   readonly priceMonth = computed(() => this.settings().price_month);
   readonly priceLesson = computed(() => this.settings().price_lesson);
@@ -54,6 +57,8 @@ export class SubscriptionService {
     const next = { ...EMPTY_SETTINGS };
     for (const r of data || []) (next as Record<string, string>)[r.key] = r.value;
     this.settings.set(next);
+    const open = await this.sb.rpc('payments_open');
+    this.paymentsOpen.set(open.data === true);
   }
 
   async saveSettings(s: PaymentSettings) {

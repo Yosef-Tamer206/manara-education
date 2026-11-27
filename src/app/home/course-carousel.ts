@@ -23,7 +23,7 @@ export class CourseCarousel implements OnDestroy {
   protected showArrows = signal(true);
 
   protected gradient = (g: string) => GRADE_GRADIENT[g] || GRADE_GRADIENT['اولي ثانوي'];
-  protected price = () => this.subs.priceMonth();
+  protected price = () => (this.subs.paymentsOpen() ? this.subs.priceMonth() : '');
   protected more = (c: CatalogCourse) => (c.lessons?.length || 0) - 4;
 
   private timer: ReturnType<typeof setInterval> | undefined;

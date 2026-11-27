@@ -109,4 +109,5 @@ export interface PaymentSettings {
   payment_number: string;
   payment_methods: string;
   unconfirmed_hours: string;
+  payments_enabled: string;
 }

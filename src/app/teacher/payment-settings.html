@@ -1,12 +1,18 @@
 <div class="card pset">
   <h3>إعدادات الدفع</h3>
   <div class="pgrid">
+    <label>الدفع
+      <select [value]="form().payments_enabled" (change)="set('payments_enabled', $any($event.target).value)">
+        <option value="off">مقفول (الدروس مفتوحة للطلبة المقبولين)</option>
+        <option value="on">مفتوح (الاشتراك مطلوب)</option>
+      </select>
+    </label>
     <label>سعر الشهر (جنيه)<input type="text" inputmode="numeric" [value]="form().price_month" (input)="set('price_month', $any($event.target).value)"></label>
     <label>سعر الحصة (جنيه)<input type="text" inputmode="numeric" [value]="form().price_lesson" (input)="set('price_lesson', $any($event.target).value)"></label>
     <label>رقم التحويل<input type="text" inputmode="tel" [value]="form().payment_number" (input)="set('payment_number', $any($event.target).value)"></label>
     <label>طرق الدفع<input type="text" [value]="form().payment_methods" (input)="set('payment_methods', $any($event.target).value)"></label>
     <label>ساعات انتظار تأكيدك<input type="text" inputmode="numeric" [value]="form().unconfirmed_hours" (input)="set('unconfirmed_hours', $any($event.target).value)"></label>
   </div>
-  <p class="hint">الوصول بيقفل لوحده لو ما أكدتش استلام الفلوس خلال الساعات دي.</p>
+  <p class="hint">الدفع مقفول لحد ما تكتب رقم التحويل الحقيقي وتفتحه. الوصول بيقفل لوحده لو ما أكدتش استلام الفلوس خلال الساعات دي.</p>
   <button class="btn gold sm" (click)="save()">حفظ</button>
 </div>

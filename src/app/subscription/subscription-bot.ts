@@ -36,8 +36,8 @@ export class SubscriptionBot implements OnInit {
   protected file = signal<File | null>(null);
 
   protected readyPlans = () => ({
-    month: /^\d+$/.test(this.subs.priceMonth()),
-    lesson: /^\d+$/.test(this.subs.priceLesson()),
+    month: this.subs.paymentsOpen() && /^\d+$/.test(this.subs.priceMonth()),
+    lesson: this.subs.paymentsOpen() && /^\d+$/.test(this.subs.priceLesson()),
   });
   protected locked = () => this.catalog().filter((l) => !l.unlocked);
   protected courses = () => [...new Set(this.locked().map((l) => l.course_title))];
@@ -73,10 +73,11 @@ export class SubscriptionBot implements OnInit {
     this.pickedLesson.set('');
     this.step.set('plan');
     const r = this.readyPlans();
+    const open = this.subs.paymentsOpen();
     this.bubbles.set([
       {
         from: 'bot',
-        text: r.month || r.lesson ? 'أهلاً! أنا مسؤول عن الاشتراكات. تحب تشترك إزاي؟' : 'الاشتراك لسه مش متاح. جرّب بعد شوية.',
+        text: !open ? 'الاشتراك هيتفتح قريبًا. لحد وقتها الدروس مفتوحة للطلبة المقبولين.' : r.month || r.lesson ? 'أهلاً! أنا مسؤول عن الاشتراكات. تحب تشترك إزاي؟' : 'الاشتراك لسه مش متاح. جرّب بعد شوية.',
       },
     ]);
   }

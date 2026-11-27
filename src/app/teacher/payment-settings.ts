@@ -4,6 +4,8 @@ import { PaymentSettings } from '../core/models';
 import { ToastService } from '../core/toast.service';
 import { EMPTY_SETTINGS, SubscriptionService } from '../subscription/subscription.service';
 
+const PLACEHOLDER_NUMBER = '01000000000';
+
 /** Prices, transfer number and the unconfirmed window: edited here, never hardcoded. */
 @Component({
   selector: 'app-payment-settings',
@@ -31,7 +33,8 @@ export class PaymentSettingsForm implements OnInit {
       const num = (v: string) => /^[0-9]+$/.test(v.trim()) && Number(v) > 0;
       if (!num(f.price_month) || !num(f.price_lesson)) return this.toast.show('الأسعار لازم تكون أرقام صحيحة');
       if (!/^[0-9]{1,3}$/.test(f.unconfirmed_hours.trim()) || Number(f.unconfirmed_hours) < 1) return this.toast.show('ساعات التأكيد لازم تكون رقم من 1 إلى 999');
-      if (!f.payment_number.trim()) return this.toast.show('اكتب رقم التحويل');
+      const n = f.payment_number.trim();
+      if (f.payments_enabled === 'on' && (!n || n === PLACEHOLDER_NUMBER)) return this.toast.show('اكتب رقم التحويل الحقيقي قبل ما تفتح الدفع');
       const err = await this.subs.saveSettings(f);
       this.toast.show(err ? err.message : 'اتحفظت الإعدادات');
     });

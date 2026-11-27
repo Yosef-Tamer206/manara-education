@@ -10,7 +10,7 @@ Live: https://yosef-tamer206.github.io/manara-education/
 - Public home page: published courses by grade, teacher intro, FAQ, latest lessons.
 - Student: sign up (email or Google), wait for approval, then dashboard, courses, lessons, auto-graded quizzes and homework submission.
 - Teacher: approve students, manage courses, lessons and quiz questions, read homework, post announcements.
-- Subscriptions: a chat-style bot takes a monthly (30 days) or single-lesson request, checks it and accepts or rejects it on its own. Access starts at once and ends by itself. The teacher confirms that the money arrived; unconfirmed access closes after a set number of hours. Prices, transfer number and that window are edited in the teacher panel.
+- Subscriptions: a chat-style bot takes a monthly (30 days) or single-lesson request, checks it and accepts or rejects it on its own. Access starts at once and ends by itself. The teacher confirms that the money arrived; unconfirmed access closes after a set number of hours. Prices, transfer number, the on/off switch and that window are edited in the teacher panel.
 
 ## Structure
 
@@ -29,7 +29,7 @@ src/
     teacher/             students, courses and lessons, quiz manager, homework, announcements
     subscription/        bot, status card, subscribe page, subscription service
     shared/              video embed, link pipe, scroll-reveal directive
-supabase/                SQL to run once in the Supabase SQL editor (subscriptions.sql)
+supabase/                SQL to run once in the Supabase SQL editor, in order: subscriptions.sql, then payments-gate.sql
 public/                  copied as is: favicon, home image, test-payment.html
 .github/workflows/       deploy.yml
 ```
@@ -37,7 +37,8 @@ public/                  copied as is: favicon, home image, test-payment.html
 ## Backend
 
 Supabase tables: profiles, courses, lessons, quizzes, homework, announcements, progress, quiz_results, site_settings, subscriptions, protected by row level security.
-Subscription rules live in the database (`supabase/subscriptions.sql`): `request_subscription` accepts or rejects (price match, unique transfer reference and receipt, receipt present, no duplicate active plan, daily limit). `has_lesson_access` gates lessons, quizzes, progress and homework. Expiry is computed on read, so no scheduled job is needed. Receipt images go to the private `receipts` bucket.
+Subscription rules live in the database (`supabase/subscriptions.sql`): `request_subscription` accepts or rejects (price match, unique transfer reference and receipt, receipt present, no duplicate active plan, daily limit). `has_lesson_access` gates lessons, quizzes, progress and homework. Expiry is computed on read, so no scheduled job is needed. Payments stay closed until the teacher sets a real transfer number and switches them on (`payments-gate.sql`, `payments_open()`): while closed the bot takes no requests and approved students keep lesson access.
+Receipt images go to the private `receipts` bucket.
 Quizzes are graded on the server (`submit_quiz`); the public catalog comes from `public_catalog`.
 The Supabase URL and the publishable key (safe to expose, RLS protects the data) are in `src/app/core/constants.ts`.
 

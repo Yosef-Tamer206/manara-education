@@ -1,7 +1,7 @@
 <div class="bot">
-  <div class="bot-log">
+  <div class="bot-log" #log>
     @for (b of bubbles(); track $index) {
-      <div class="bub" [class.me]="b.from === 'me'" [class.ok]="b.tone === 'ok'" [class.bad]="b.tone === 'bad'">{{ b.text }}</div>
+      <div class="bub" dir="auto" [class.me]="b.from === 'me'" [class.ok]="b.tone === 'ok'" [class.bad]="b.tone === 'bad'">{{ b.text }}</div>
     }
   </div>
 
@@ -27,7 +27,7 @@
         <button class="btn gold" [disabled]="!reference().trim()" (click)="sendReference()">إرسال</button>
       }
       @case ('receipt') {
-        <label class="btn gold">رفع صورة الإيصال<input type="file" accept="image/*" hidden (change)="pickFile($event)"></label>
+        <label class="btn gold">رفع صورة الإيصال<input class="vh" type="file" accept="image/*" (change)="pickFile($event)"></label>
       }
       @case ('review') {
         <button class="btn gold" (click)="submit()">تأكيد وإرسال</button>

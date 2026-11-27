@@ -1,0 +1,31 @@
+name: Apply subscriptions patch
+
+on:
+  push:
+    paths:
+      - .github/workflows/apply-patch.yml
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack the patch
+        run: |
+          base64 -d bundle/patch.b64.txt > /tmp/patch.tar.gz
+          rm -rf bundle
+          tar -xzf /tmp/patch.tar.gz
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git reset -q .github/workflows/apply-patch.yml
+          git commit -m "Add subscriptions: bot, teacher confirmation, locked lessons"
+          git push
+      - name: Build and deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run "Deploy to GitHub Pages" --repo "$GITHUB_REPOSITORY" --ref main

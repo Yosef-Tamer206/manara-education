@@ -1,0 +1,31 @@
+name: Apply Angular conversion
+
+on:
+  push:
+    paths:
+      - bundle/part2.b64.txt
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace the old single-page code with the Angular project
+        run: |
+          cat bundle/part*.b64.txt | base64 -d > /tmp/manara.tar.gz
+          rm -rf bundle
+          tar -xzf /tmp/manara.tar.gz
+          git rm -rq --ignore-unmatch index.html test-payment.html css js assets
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Convert Manara to an Angular project (one file per concern)"
+          git push
+      - name: Build and deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run "Deploy to GitHub Pages" --repo "$GITHUB_REPOSITORY" --ref main

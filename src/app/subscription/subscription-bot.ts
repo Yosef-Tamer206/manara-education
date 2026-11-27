@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input, output, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, effect, inject, input, output, signal, viewChild } from '@angular/core';
 import { BusyService } from '../core/busy.service';
 import { CatalogLesson } from '../core/models';
 import { ToastService } from '../core/toast.service';
@@ -26,6 +26,7 @@ export class SubscriptionBot implements OnInit {
   readonly lessonId = input<string | null>(null);
   readonly decided = output<void>();
 
+  private log = viewChild<ElementRef<HTMLElement>>('log');
   protected bubbles = signal<Bubble[]>([]);
   protected step = signal<Step>('plan');
   protected catalog = signal<CatalogLesson[]>([]);
@@ -43,6 +44,17 @@ export class SubscriptionBot implements OnInit {
   protected inCourse = (t: string) => this.locked().filter((l) => l.course_title === t);
   protected price = () => Number(this.plan() === 'month' ? this.subs.priceMonth() : this.subs.priceLesson());
   protected lessonTitle = () => this.catalog().find((l) => l.lesson_id === this.pickedLesson())?.title ?? '';
+
+  constructor() {
+    // Keep the newest message in view.
+    effect(() => {
+      this.bubbles();
+      setTimeout(() => {
+        const el = this.log()?.nativeElement;
+        if (el) el.scrollTop = el.scrollHeight;
+      });
+    });
+  }
 
   async ngOnInit() {
     await Promise.all([this.subs.loadSettings(), this.subs.refresh()]);
@@ -117,7 +129,7 @@ export class SubscriptionBot implements OnInit {
     if (!f) return;
     if (!f.type.startsWith('image/')) return this.toast.show('لازم تختار صورة.');
     this.file.set(f);
-    this.say('me', `📎 ${f.name}`);
+    this.say('me', `صورة الإيصال: ${f.name}`);
     this.say('bot', this.summary());
     this.step.set('review');
   }
